@@ -24,6 +24,7 @@ MAIN_SPECS = (
                  tooltip="Apply the transfer function of the output color space. Turn off for linear output."))
 )
 MAIN_DEFAULTS = {"io.input_color_space": RGBColorSpaces.sRGB.value, "io.input_cctf_decoding": True}
+MAIN_ADVANCED = {"enlarger.illuminant", "enlarger.lens_blur"}
 
 
 class SpektrafilmFilmSimulation(io.ComfyNode):
@@ -41,7 +42,7 @@ class SpektrafilmFilmSimulation(io.ComfyNode):
                              tooltip="Skip grain and blurs for a fast look at color and exposure."),
         ]
         for spec in MAIN_SPECS:
-            inputs += spec_inputs(spec, MAIN_DEFAULTS.get(spec.path))
+            inputs += spec_inputs(spec, MAIN_DEFAULTS.get(spec.path), spec.path in MAIN_ADVANCED)
         inputs.append(Params.Input("params", optional=True, tooltip="Settings from the other Spektrafilm nodes."))
         return io.Schema(
             node_id="SpektrafilmFilmSimulation",
@@ -84,8 +85,9 @@ def _group_node(node_id: str, display_name: str, description: str, specs: tuple,
             if stock_preset:
                 inputs.append(io.Boolean.Input("override_stock_preset", display_name="override stock preset", default=False, advanced=True,
                                                tooltip=f"Use the values below for {', '.join(stock_preset)} instead of the ones spektrafilm picks for the chosen film stock."))
+            all_advanced = all(spec.tier != "basic" for spec in specs)
             for spec in specs:
-                inputs += spec_inputs(spec)
+                inputs += spec_inputs(spec, advanced=False if all_advanced else None)
             return io.Schema(node_id=node_id, display_name=display_name, category=f"{CATEGORY}/params",
                              description=description, inputs=inputs, outputs=[Params.Output()])
 
@@ -106,7 +108,7 @@ class SpektrafilmFilmTune(io.ComfyNode):
     @classmethod
     def define_schema(cls):
         inputs = [Params.Input("params", optional=True)]
-        inputs += spec_inputs(pm.TUNE_PANEL_FIELDS[0])
+        inputs += spec_inputs(pm.TUNE_PANEL_FIELDS[0], advanced=False)
         inputs += [io.Combo.Input(name, display_name=name.replace("_", " "), options=SWAP_ORDERS, default=SWAP_ORDERS[0], advanced=True,
                                   tooltip="Reorder the CMY density channels of the profile, for creative cross-channel looks.")
                    for name in CHANNEL_SWAPS]

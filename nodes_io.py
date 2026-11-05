@@ -11,7 +11,7 @@ from spektrafilm.utils.io import load_image_oiio, save_image_oiio, write_image_m
 from spektrafilm.utils.raw_file_processor import load_and_process_raw_file
 from spektrafilm_gui.options import RawWhiteBalance, RGBColorSpaces
 
-from .params import CATEGORY
+from .params import CATEGORY, NEUTRAL, gradient
 
 RAW_EXTENSIONS = (".3fr", ".ari", ".arw", ".bay", ".cr2", ".cr3", ".crw", ".dcr", ".dng", ".erf", ".fff", ".iiq",
                   ".k25", ".kdc", ".mef", ".mos", ".mrw", ".nef", ".nrw", ".orf", ".pef", ".raf", ".raw", ".rw2",
@@ -58,18 +58,20 @@ class SpektrafilmLoadRaw(io.ComfyNode):
             category=CATEGORY,
             description="Demosaic a camera RAW file into a float image (rawpy / LibRaw), with white balance and lensfun lens correction.",
             inputs=[
-                io.Combo.Input("raw_file", options=_input_files(RAW_EXTENSIONS),
+                io.Combo.Input("raw_file", display_name="raw file", options=_input_files(RAW_EXTENSIONS),
                                tooltip="RAW files in the ComfyUI input folder. Use the upload button to add one."),
-                io.Combo.Input("white_balance", options=[w.value for w in RawWhiteBalance], default=RawWhiteBalance.as_shot.value),
+                io.Combo.Input("white_balance", display_name="white balance", options=[w.value for w in RawWhiteBalance], default=RawWhiteBalance.as_shot.value),
                 io.Float.Input("temperature", default=5500.0, min=2000.0, max=15000.0, step=50.0,
+                               display_mode=io.NumberDisplay.gradient_slider, gradient_stops=gradient((80, 130, 235), (235, 235, 235), (240, 180, 60)),
                                tooltip="Color temperature in kelvin, used when white_balance is custom."),
                 io.Float.Input("tint", default=1.0, min=0.5, max=1.5, step=0.01,
+                               display_mode=io.NumberDisplay.gradient_slider, gradient_stops=gradient((205, 80, 200), NEUTRAL, (80, 190, 90)),
                                tooltip="Green multiplier, used when white_balance is custom."),
-                io.Boolean.Input("lens_correction", default=False,
+                io.Boolean.Input("lens_correction", display_name="lens correction", default=False,
                                  tooltip="Correct vignetting, chromatic aberration and distortion with lensfun, from the camera and lens in the EXIF data."),
-                io.Combo.Input("color_space", options=COLOR_SPACES, default=RGBColorSpaces.sRGB.value,
+                io.Combo.Input("color_space", display_name="color space", options=COLOR_SPACES, default=RGBColorSpaces.sRGB.value,
                                tooltip="Color space of the output image. Set the same input color space on Spektrafilm Film Simulation."),
-                io.Boolean.Input("cctf_encoding", default=True,
+                io.Boolean.Input("cctf_encoding", display_name="apply CCTF encoding", default=True,
                                  tooltip="Apply the color space transfer function. Set the same value as apply CCTF decoding on Spektrafilm Film Simulation. Values above 1 are kept."),
             ],
             outputs=[io.Image.Output()],
@@ -138,14 +140,14 @@ class SpektrafilmSaveImage(io.ComfyNode):
             description="Save as 16-bit TIFF, float TIFF/EXR, PNG or JPEG with an embedded ICC profile, converting the color space if asked.",
             inputs=[
                 io.Image.Input("images"),
-                io.String.Input("filename_prefix", default="spektrafilm/ComfyUI"),
+                io.String.Input("filename_prefix", display_name="filename prefix", default="spektrafilm/ComfyUI"),
                 io.Combo.Input("format", options=list(SAVE_FORMATS), default="tiff 16-bit"),
-                io.Combo.Input("image_color_space", options=COLOR_SPACES, default=RGBColorSpaces.sRGB.value,
+                io.Combo.Input("image_color_space", display_name="image color space", options=COLOR_SPACES, default=RGBColorSpaces.sRGB.value,
                                tooltip="Color space of the incoming image (the output color space of the simulation)."),
-                io.Boolean.Input("image_cctf_encoded", default=True,
+                io.Boolean.Input("image_cctf_encoded", display_name="image CCTF encoded", default=True,
                                  tooltip="Whether the incoming image carries the transfer function of its color space."),
-                io.Combo.Input("save_color_space", options=COLOR_SPACES, default=RGBColorSpaces.sRGB.value),
-                io.Boolean.Input("save_cctf_encoding", default=True,
+                io.Combo.Input("save_color_space", display_name="save color space", options=COLOR_SPACES, default=RGBColorSpaces.sRGB.value),
+                io.Boolean.Input("save_cctf_encoding", display_name="save CCTF encoding", default=True,
                                  tooltip="Apply the transfer function of the saved color space. Turn off to save linear values."),
             ],
             outputs=[],

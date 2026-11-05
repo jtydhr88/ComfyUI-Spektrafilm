@@ -27,6 +27,20 @@ SWAP_ORDERS = ["0, 1, 2", "0, 2, 1", "1, 0, 2", "1, 2, 0", "2, 0, 1", "2, 1, 0"]
 DEFAULTS = digest_params(init_params())
 
 
+def gradient(*colors) -> list[dict]:
+    return [{"offset": i / (len(colors) - 1), "color": list(c)} for i, c in enumerate(colors)]
+
+
+NEUTRAL = (128, 128, 128)
+YELLOW_BLUE = gradient((222, 190, 60), NEUTRAL, (70, 110, 230))
+MAGENTA_GREEN = gradient((205, 80, 200), NEUTRAL, (80, 190, 90))
+FILTER_SHIFTS = {"print_y_filter_shift": YELLOW_BLUE, "preflash_y_filter_shift": YELLOW_BLUE,
+                 "print_m_filter_shift": MAGENTA_GREEN, "preflash_m_filter_shift": MAGENTA_GREEN}
+GRADIENTS = {**FILTER_SHIFTS, "halo_warmth": gradient((90, 140, 230), NEUTRAL, (235, 150, 70))}
+RANGES = {name: (-200, 200) for name in FILTER_SHIFTS}
+NUMBER_FIELDS = {"exposure_compensation_ev"}
+
+
 def read_path(obj, path: str):
     for part in path.split("."):
         obj = getattr(obj, part)
@@ -49,12 +63,17 @@ def _hint(path: str):
 
 
 def _number(kind, name, default, spec: ParamSpec, display_name, **kw):
+    lo, hi = RANGES.get(spec.leaf, (spec.min, spec.max))
+    if spec.leaf in GRADIENTS:
+        kw.update(display_mode=io.NumberDisplay.gradient_slider, gradient_stops=GRADIENTS[spec.leaf])
+    elif lo is not None and hi is not None and spec.leaf not in NUMBER_FIELDS:
+        kw["display_mode"] = io.NumberDisplay.slider
     if kind is int:
-        return io.Int.Input(name, default=default, min=int(spec.min if spec.min is not None else -10000),
-                            max=int(spec.max if spec.max is not None else 10000), step=int(spec.step or 1),
+        return io.Int.Input(name, default=default, min=int(lo if lo is not None else -10000),
+                            max=int(hi if hi is not None else 10000), step=int(spec.step or 1),
                             display_name=display_name, **kw)
-    return io.Float.Input(name, default=default, min=spec.min if spec.min is not None else -10000.0,
-                          max=spec.max if spec.max is not None else 10000.0, step=spec.step or 0.01,
+    return io.Float.Input(name, default=default, min=lo if lo is not None else -10000.0,
+                          max=hi if hi is not None else 10000.0, step=spec.step or 0.01,
                           round=10 ** -spec.decimals if spec.decimals else None, display_name=display_name, **kw)
 
 
@@ -63,9 +82,9 @@ def label(spec: ParamSpec) -> str:
     return text[0].lower() + text[1:]
 
 
-def spec_inputs(spec: ParamSpec, default=None) -> list:
+def spec_inputs(spec: ParamSpec, default=None, advanced=None) -> list:
     default = read_path(DEFAULTS, spec.path) if default is None else default
-    kw = {"tooltip": spec.tooltip or None, "advanced": spec.tier != "basic"}
+    kw = {"tooltip": spec.tooltip or None, "advanced": spec.tier != "basic" if advanced is None else advanced}
     if spec.enum is not None:
         return [io.Combo.Input(spec.leaf, options=[e.value for e in spec.enum], default=default,
                                display_name=label(spec), **kw)]
