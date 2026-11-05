@@ -30,7 +30,7 @@ All dependencies ship wheels for Windows, Linux and macOS. Everything runs on th
 - preview: skips grain and blurs for a fast look at color and exposure
 - camera auto exposure and exposure compensation, print exposure, enlarger Y/M filter shifts
 
-**Spektrafilm Preview** goes after the simulation node. It shows the result of each run, and between runs it is a live preview: every change on the simulation node or on the params nodes chained into it re-renders a 640 px preview in a fraction of a second, without queueing the workflow (run once first, so it has an input image). The `grain & blur` switch adds grain and blurs to the live preview (slower). The live preview is frontend-only: it is not saved in the workflow and not sent in API prompts.
+**Spektrafilm Preview** goes after the simulation node. It shows the result of each run, and between runs it is a live preview (run once first, so it has an input image). Every change on the simulation node or on the params nodes chained into it updates the preview in about 0.2 s without queueing the workflow: the backend bakes the per-pixel part of the simulation into a 33³ 3D LUT and the browser applies it to the input image with WebGL. Grain, halation and blurs are spatial and not in the LUT; turn on `grain & blur` to render them on the backend instead (640 px, slower). The live preview is frontend-only: it is not saved in the workflow and not sent in API prompts.
 
 Every other parameter of the spektrafilm GUI is on a params node. Chain any of them into the `params` input:
 
@@ -74,7 +74,7 @@ Both loaders have an upload button. Example workflows are in [`example_workflows
 
 To update the vendored copy: `python scripts/sync_spektrafilm.py <path to a spektrafilm clone>`. The upstream commit is recorded in `vendor/UPSTREAM`.
 
-The live preview runs in `live_preview.py` (route `POST /spektrafilm/live_preview`). It rebuilds the parameters by calling the params nodes' own `execute`, so it matches a real run, and it renders from a downscaled copy of the input the simulation node saw in its last run. The frontend is Vue + TypeScript in `src/`: a Pinia store keeps one entry per Preview node and, on every change, walks from the Preview node to its simulation node and up the `params` chain. The built bundle `web/js/main.js` is committed; rebuild it with `npm install && npm run build`.
+The live preview runs in `live_preview.py`. It rebuilds the parameters by calling the params nodes' own `execute`, so it uses exactly the settings a real run would. Each run caches a downscaled copy of the simulation node's input, keyed by workflow id and node id. `POST /spektrafilm/live_lut` bakes the LUT (auto exposure measured on that input, spatial and random effects off; mean difference to the per-pixel simulation about 0.0002 on photos), `GET /spektrafilm/live_input` sends the input as float16, and `POST /spektrafilm/live_preview` renders the full 640 px preview. The frontend is Vue + TypeScript in `src/`: a Pinia store keeps one entry per Preview node and, on every change, walks from the Preview node to its simulation node and up the `params` chain; `src/lutRenderer.ts` is the WebGL2 renderer. The built bundle `web/js/main.js` is committed; rebuild it with `npm install && npm run build`.
 
 Tests: `pytest tests` from the ComfyUI Python environment.
 

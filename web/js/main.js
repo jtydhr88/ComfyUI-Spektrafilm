@@ -3,13 +3,16 @@
   try {
     if (typeof document != "undefined") {
       var elementStyle = document.createElement("style");
-      elementStyle.appendChild(document.createTextNode(".sf-live[data-v-70ead87a] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n  height: 100%;\n  font-size: 12px;\n  color: var(--input-text, #ddd);\n}\n.sf-live__bar[data-v-70ead87a] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.sf-live__switch[data-v-70ead87a] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 0;\n  border: 0;\n  background: none;\n  color: inherit;\n  font: inherit;\n  cursor: pointer;\n  user-select: none;\n}\n.sf-live__switch[data-v-70ead87a]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.sf-live__track[data-v-70ead87a] {\n  display: inline-flex;\n  align-items: center;\n  width: 36px;\n  height: 20px;\n  padding: 0 2px;\n  box-sizing: border-box;\n  border-radius: 9999px;\n  background: var(--border, #444);\n  transition: background-color 0.15s;\n}\n.sf-live__thumb[data-v-70ead87a] {\n  width: 16px;\n  height: 16px;\n  border-radius: 9999px;\n  background: var(--background, #fff);\n  box-shadow: 0 1px 2px rgb(0 0 0 / 0.3);\n  transition: transform 0.15s;\n}\n.sf-live__switch[aria-checked='true'] .sf-live__track[data-v-70ead87a] {\n  background: var(--primary, #3b82f6);\n}\n.sf-live__switch[aria-checked='true'] .sf-live__thumb[data-v-70ead87a] {\n  transform: translateX(14px);\n}\n.sf-live__spinner[data-v-70ead87a] {\n  width: 10px;\n  height: 10px;\n  margin-left: auto;\n  border: 2px solid var(--descrip-text, #999);\n  border-top-color: transparent;\n  border-radius: 50%;\n  animation: sf-spin-70ead87a 0.8s linear infinite;\n}\n.sf-live__view[data-v-70ead87a] {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 6px;\n  background: var(--comfy-input-bg, #222);\n  overflow: hidden;\n}\n.sf-live__img[data-v-70ead87a] {\n  max-width: 100%;\n  max-height: 100%;\n  object-fit: contain;\n  transition: opacity 0.15s;\n}\n.sf-live__img--stale[data-v-70ead87a] {\n  opacity: 0.7;\n}\n.sf-live__badge[data-v-70ead87a] {\n  position: absolute;\n  top: 6px;\n  left: 6px;\n  padding: 1px 6px;\n  border-radius: 4px;\n  font-size: 11px;\n  background: color-mix(in srgb, var(--comfy-input-bg, #222) 80%, transparent);\n}\n.sf-live__note[data-v-70ead87a] {\n  margin: 0;\n  padding: 12px;\n  text-align: center;\n  color: var(--descrip-text, #999);\n}\n.sf-live__note--error[data-v-70ead87a] {\n  position: absolute;\n  inset: auto 0 0 0;\n  color: var(--error-text, #f87171);\n  background: color-mix(in srgb, var(--comfy-input-bg, #222) 85%, transparent);\n}\n@keyframes sf-spin-70ead87a {\nto { transform: rotate(360deg);\n}\n}"));
+      elementStyle.appendChild(document.createTextNode(".sf-live[data-v-b43d174c] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n  height: 100%;\n  font-size: 12px;\n  color: var(--input-text, #ddd);\n}\n.sf-live__bar[data-v-b43d174c] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.sf-live__switch[data-v-b43d174c] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 0;\n  border: 0;\n  background: none;\n  color: inherit;\n  font: inherit;\n  cursor: pointer;\n  user-select: none;\n}\n.sf-live__switch[data-v-b43d174c]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.sf-live__track[data-v-b43d174c] {\n  display: inline-flex;\n  align-items: center;\n  width: 36px;\n  height: 20px;\n  padding: 0 2px;\n  box-sizing: border-box;\n  border-radius: 9999px;\n  background: var(--border, #444);\n  transition: background-color 0.15s;\n}\n.sf-live__thumb[data-v-b43d174c] {\n  width: 16px;\n  height: 16px;\n  border-radius: 9999px;\n  background: var(--background, #fff);\n  box-shadow: 0 1px 2px rgb(0 0 0 / 0.3);\n  transition: transform 0.15s;\n}\n.sf-live__switch[aria-checked='true'] .sf-live__track[data-v-b43d174c] {\n  background: var(--primary, #3b82f6);\n}\n.sf-live__switch[aria-checked='true'] .sf-live__thumb[data-v-b43d174c] {\n  transform: translateX(14px);\n}\n.sf-live__spinner[data-v-b43d174c] {\n  width: 10px;\n  height: 10px;\n  margin-left: auto;\n  border: 2px solid var(--descrip-text, #999);\n  border-top-color: transparent;\n  border-radius: 50%;\n  animation: sf-spin-b43d174c 0.8s linear infinite;\n}\n.sf-live__view[data-v-b43d174c] {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 6px;\n  background: var(--comfy-input-bg, #222);\n  overflow: hidden;\n}\n.sf-live__img[data-v-b43d174c] {\n  max-width: 100%;\n  max-height: 100%;\n  object-fit: contain;\n  transition: opacity 0.15s;\n}\n.sf-live__img--stale[data-v-b43d174c] {\n  opacity: 0.7;\n}\n.sf-live__badge[data-v-b43d174c] {\n  position: absolute;\n  top: 6px;\n  left: 6px;\n  padding: 1px 6px;\n  border-radius: 4px;\n  font-size: 11px;\n  background: color-mix(in srgb, var(--comfy-input-bg, #222) 80%, transparent);\n}\n.sf-live__note[data-v-b43d174c] {\n  margin: 0;\n  padding: 12px;\n  text-align: center;\n  color: var(--descrip-text, #999);\n}\n.sf-live__note--error[data-v-b43d174c] {\n  position: absolute;\n  inset: auto 0 0 0;\n  color: var(--error-text, #f87171);\n  background: color-mix(in srgb, var(--comfy-input-bg, #222) 85%, transparent);\n}\n@keyframes sf-spin-b43d174c {\nto { transform: rotate(360deg);\n}\n}"));
       document.head.appendChild(elementStyle);
     }
   } catch (e) {
     console.error("vite-plugin-css-injected-by-js", e);
   }
 })();
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 import { app as app$1 } from "../../../scripts/app.js";
 import { api as api$1 } from "../../../scripts/api.js";
 /**
@@ -2337,6 +2340,36 @@ function withCtx(fn, ctx = currentRenderingInstance, isNonScopedSlot) {
   renderFnWithContext._c = true;
   renderFnWithContext._d = true;
   return renderFnWithContext;
+}
+function withDirectives(vnode, directives) {
+  if (currentRenderingInstance === null) {
+    return vnode;
+  }
+  const instance = getComponentPublicInstance(currentRenderingInstance);
+  const bindings = vnode.dirs || (vnode.dirs = []);
+  for (let i = 0; i < directives.length; i++) {
+    let [dir, value, arg, modifiers = EMPTY_OBJ] = directives[i];
+    if (dir) {
+      if (isFunction(dir)) {
+        dir = {
+          mounted: dir,
+          updated: dir
+        };
+      }
+      if (dir.deep) {
+        traverse(value);
+      }
+      bindings.push({
+        dir,
+        instance,
+        value,
+        oldValue: void 0,
+        arg,
+        modifiers
+      });
+    }
+  }
+  return vnode;
 }
 function invokeDirectiveHook(vnode, prevVNode, instance, name) {
   let hookVNode = vnode;
@@ -6264,6 +6297,46 @@ function patchClass(el, value, isSVG) {
 }
 const vShowOriginalDisplay = /* @__PURE__ */ Symbol("_vod");
 const vShowHidden = /* @__PURE__ */ Symbol("_vsh");
+const vShow = {
+  // used for prop mismatch check during hydration
+  name: "show",
+  beforeMount(el, { value }, { transition }) {
+    el[vShowOriginalDisplay] = el.style.display === "none" ? "" : el.style.display;
+    if (transition && value) {
+      transition.beforeEnter(el);
+    } else {
+      setDisplay(el, value);
+    }
+  },
+  mounted(el, { value }, { transition }) {
+    if (transition && value) {
+      transition.enter(el);
+    }
+  },
+  updated(el, { value, oldValue }, { transition }) {
+    if (!value === !oldValue) return;
+    if (transition) {
+      if (value) {
+        transition.beforeEnter(el);
+        setDisplay(el, true);
+        transition.enter(el);
+      } else {
+        transition.leave(el, () => {
+          setDisplay(el, false);
+        });
+      }
+    } else {
+      setDisplay(el, value);
+    }
+  },
+  beforeUnmount(el, { value }) {
+    setDisplay(el, value);
+  }
+};
+function setDisplay(el, value) {
+  el.style.display = value ? el[vShowOriginalDisplay] : "none";
+  el[vShowHidden] = !value;
+}
 const CSS_VAR_TEXT = /* @__PURE__ */ Symbol("");
 const displayRE = /(?:^|;)\s*display\s*:/;
 function patchStyle(el, prev, next) {
@@ -7011,6 +7084,100 @@ function t(key) {
   const locale = String(app.extensionManager.setting.get("Comfy.Locale") ?? "en");
   return (locale.startsWith("zh") ? messages.zh : messages.en)[key];
 }
+const VERTEX = `#version 300 es
+in vec2 a_position;
+out vec2 v_uv;
+void main() {
+  v_uv = vec2(a_position.x * 0.5 + 0.5, 0.5 - a_position.y * 0.5);
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+const FRAGMENT = `#version 300 es
+precision highp float;
+precision highp sampler3D;
+uniform sampler2D u_image;
+uniform sampler3D u_lut;
+uniform float u_max;
+uniform float u_gamma;
+uniform float u_size;
+in vec2 v_uv;
+out vec4 fragColor;
+void main() {
+  vec3 value = texture(u_image, v_uv).rgb;
+  vec3 grid = pow(clamp(value / u_max, 0.0, 1.0), vec3(1.0 / u_gamma));
+  vec3 coord = (grid * (u_size - 1.0) + 0.5) / u_size;
+  fragColor = vec4(texture(u_lut, coord).rgb, 1.0);
+}`;
+function compile(gl, type, source2) {
+  const shader = gl.createShader(type);
+  gl.shaderSource(shader, source2);
+  gl.compileShader(shader);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(shader) ?? "shader compile failed");
+  return shader;
+}
+function texture(gl, target) {
+  const tex = gl.createTexture();
+  gl.bindTexture(target, tex);
+  gl.texParameteri(target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(target, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(target, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(target, gl.TEXTURE_WRAP_R, gl.CLAMP_TO_EDGE);
+  return tex;
+}
+class LutRenderer {
+  constructor(canvas) {
+    __publicField(this, "gl");
+    __publicField(this, "program");
+    __publicField(this, "imageTexture");
+    __publicField(this, "lutTexture");
+    __publicField(this, "image", null);
+    this.canvas = canvas;
+    const gl = canvas.getContext("webgl2", { premultipliedAlpha: false, preserveDrawingBuffer: true });
+    if (!gl) throw new Error("WebGL2 is not available");
+    this.gl = gl;
+    const program = gl.createProgram();
+    gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, VERTEX));
+    gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, FRAGMENT));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) ?? "program link failed");
+    this.program = program;
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, "a_position");
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+    this.imageTexture = texture(gl, gl.TEXTURE_2D);
+    this.lutTexture = texture(gl, gl.TEXTURE_3D);
+  }
+  draw(image, lut) {
+    const gl = this.gl;
+    gl.useProgram(this.program);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, this.imageTexture);
+    if (image !== this.image) {
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB16F, image.width, image.height, 0, gl.RGB, gl.HALF_FLOAT, image.data);
+      this.image = image;
+      this.canvas.width = image.width;
+      this.canvas.height = image.height;
+    }
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_3D, this.lutTexture);
+    gl.texImage3D(gl.TEXTURE_3D, 0, gl.RGB16F, lut.size, lut.size, lut.size, 0, gl.RGB, gl.HALF_FLOAT, lut.data);
+    gl.uniform1i(gl.getUniformLocation(this.program, "u_image"), 0);
+    gl.uniform1i(gl.getUniformLocation(this.program, "u_lut"), 1);
+    gl.uniform1f(gl.getUniformLocation(this.program, "u_max"), lut.max);
+    gl.uniform1f(gl.getUniformLocation(this.program, "u_gamma"), lut.gamma);
+    gl.uniform1f(gl.getUniformLocation(this.program, "u_size"), lut.size);
+    gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+  dispose() {
+    var _a;
+    (_a = this.gl.getExtension("WEBGL_lose_context")) == null ? void 0 : _a.loseContext();
+  }
+}
 const BYPASS = 4;
 const SKIPPED_WIDGETS = /* @__PURE__ */ new Set(["control_after_generate"]);
 function widgetValues(node) {
@@ -7041,11 +7208,20 @@ function composeRequest(simulation, key, fast) {
   }
   return { key, fast, main: widgetValues(simulation), chain: chain2 };
 }
-const DEBOUNCE_MS = 120;
+const DEBOUNCE_MS = 60;
+class PreviewError extends Error {
+}
+async function fetchOk(path, init) {
+  const response = await api.fetchApi(path, init);
+  if (response.status === 404) return null;
+  if (!response.ok) throw new PreviewError((await response.json()).error ?? response.statusText);
+  return response;
+}
 const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview", () => {
   const entries = /* @__PURE__ */ reactive({});
   const previews = /* @__PURE__ */ new Map();
   const inputKeys = /* @__PURE__ */ new WeakMap();
+  const images = /* @__PURE__ */ new Map();
   let timer;
   let nextId = 0;
   function register(preview) {
@@ -7056,8 +7232,11 @@ const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview"
       fast: true,
       status: "waiting",
       message: "",
+      view: "image",
       url: "",
       count: 0,
+      image: null,
+      lut: null,
       signature: "",
       busy: false,
       again: false
@@ -7075,23 +7254,28 @@ const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview"
     delete entries[id];
     previews.delete(id);
   }
+  function inputKey(simulation) {
+    return inputKeys.get(simulation) ?? (simulation.graph === app.rootGraph ? `${app.rootGraph.id}:${simulation.id}` : void 0);
+  }
   function request(id) {
     const preview = previews.get(id);
     const simulation = preview && simulationSource(preview);
     const entry = entries[id];
     if (!simulation || !entry) return null;
-    const key = inputKeys.get(simulation) ?? (simulation.graph === app.rootGraph ? `${app.rootGraph.id}:${simulation.id}` : void 0);
+    const key = inputKey(simulation);
     return key && JSON.stringify(composeRequest(simulation, key, entry.fast));
   }
   function simulationExecuted(simulation, key) {
     inputKeys.set(markRaw(simulation), key);
+    images.delete(key);
   }
-  function previewExecuted(id, images) {
+  function previewExecuted(id, saved) {
     const entry = entries[id];
-    if (!entry || !images.length) return;
-    const { filename, subfolder, type } = images[0];
+    if (!entry || !saved.length) return;
+    const { filename, subfolder, type } = saved[0];
     setUrl(entry, api.apiURL(`/view?${new URLSearchParams({ filename, subfolder, type })}`));
-    entry.count = images.length;
+    entry.view = "image";
+    entry.count = saved.length;
     entry.status = "result";
     entry.signature = request(id) ?? "";
   }
@@ -7106,6 +7290,43 @@ const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview"
     timer = setTimeout(() => {
       for (const id of previews.keys()) void refresh(id);
     }, DEBOUNCE_MS);
+  }
+  function loadImage(key) {
+    let image = images.get(key);
+    if (!image) {
+      image = fetchOk(`/spektrafilm/live_input?${new URLSearchParams({ key })}`).then(async (response) => response && markRaw({
+        width: Number(response.headers.get("X-Width")),
+        height: Number(response.headers.get("X-Height")),
+        data: new Uint16Array(await response.arrayBuffer())
+      }));
+      image.catch(() => images.delete(key));
+      images.set(key, image);
+    }
+    return image;
+  }
+  async function renderLut(entry, body) {
+    const { key } = JSON.parse(body);
+    const [image, response] = await Promise.all([
+      loadImage(key),
+      fetchOk("/spektrafilm/live_lut", { method: "POST", headers: { "Content-Type": "application/json" }, body })
+    ]);
+    if (!image || !response) return false;
+    entry.image = image;
+    entry.lut = markRaw({
+      size: Number(response.headers.get("X-Lut-Size")),
+      max: Number(response.headers.get("X-Lut-Max")),
+      gamma: Number(response.headers.get("X-Lut-Gamma")),
+      data: new Uint16Array(await response.arrayBuffer())
+    });
+    entry.view = "lut";
+    return true;
+  }
+  async function renderImage(entry, body) {
+    const response = await fetchOk("/spektrafilm/live_preview", { method: "POST", headers: { "Content-Type": "application/json" }, body });
+    if (!response) return false;
+    setUrl(entry, URL.createObjectURL(await response.blob()));
+    entry.view = "image";
+    return true;
   }
   async function refresh(id) {
     const entry = entries[id];
@@ -7124,27 +7345,18 @@ const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview"
     entry.busy = true;
     entry.status = "loading";
     try {
-      const response = await api.fetchApi("/spektrafilm/live_preview", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body
-      });
-      if (response.status === 404) {
+      const rendered = entry.fast ? await renderLut(entry, body) : await renderImage(entry, body);
+      if (!rendered) {
         entry.status = "waiting";
         return;
       }
       entry.signature = body;
-      if (!response.ok) {
-        entry.status = "error";
-        entry.message = (await response.json()).error ?? response.statusText;
-        return;
-      }
-      setUrl(entry, URL.createObjectURL(await response.blob()));
       entry.count = 1;
       entry.status = "live";
     } catch (error) {
+      entry.signature = body;
       entry.status = "error";
-      entry.message = String(error);
+      entry.message = error instanceof PreviewError ? error.message : String(error);
     } finally {
       entry.busy = false;
       if (entry.again && entries[id]) {
@@ -7192,6 +7404,23 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
   setup(__props) {
     const store2 = useLivePreviewStore();
     const entry = computed(() => store2.entries[__props.entryId]);
+    const canvas = /* @__PURE__ */ ref();
+    let renderer2;
+    watch([canvas, () => {
+      var _a;
+      return (_a = entry.value) == null ? void 0 : _a.lut;
+    }], ([element]) => {
+      const { image, lut } = entry.value ?? {};
+      if (!element || !image || !lut) return;
+      try {
+        renderer2 ?? (renderer2 = new LutRenderer(element));
+        renderer2.draw(image, lut);
+      } catch (error) {
+        entry.value.status = "error";
+        entry.value.message = String(error);
+      }
+    });
+    onBeforeUnmount(() => renderer2 == null ? void 0 : renderer2.dispose());
     return (_ctx, _cache) => {
       return entry.value ? (openBlock(), createElementBlock("div", _hoisted_1, [
         createBaseVNode("div", _hoisted_2, [
@@ -7223,19 +7452,26 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           entry.value.status === "loading" ? (openBlock(), createElementBlock("span", _hoisted_5)) : createCommentVNode("", true)
         ]),
         createBaseVNode("div", _hoisted_6, [
-          entry.value.url ? (openBlock(), createElementBlock("img", {
+          withDirectives(createBaseVNode("canvas", {
+            ref_key: "canvas",
+            ref: canvas,
+            class: "sf-live__img"
+          }, null, 512), [
+            [vShow, entry.value.view === "lut"]
+          ]),
+          entry.value.view === "image" && entry.value.url ? (openBlock(), createElementBlock("img", {
             key: 0,
             src: entry.value.url,
             class: normalizeClass([{ "sf-live__img--stale": entry.value.status === "loading" }, "sf-live__img"])
           }, null, 10, _hoisted_7)) : createCommentVNode("", true),
-          entry.value.url && (entry.value.status === "live" || entry.value.status === "result") ? (openBlock(), createElementBlock("span", _hoisted_8, [
+          entry.value.status === "live" || entry.value.status === "result" && entry.value.url ? (openBlock(), createElementBlock("span", _hoisted_8, [
             createTextVNode(toDisplayString(entry.value.status === "live" ? unref(t)("live") : unref(t)("result")), 1),
             entry.value.count > 1 ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
               createTextVNode(" · 1/" + toDisplayString(entry.value.count), 1)
             ], 64)) : createCommentVNode("", true)
           ])) : createCommentVNode("", true),
           entry.value.status === "unlinked" ? (openBlock(), createElementBlock("p", _hoisted_9, toDisplayString(unref(t)("unlinked")), 1)) : createCommentVNode("", true),
-          entry.value.status === "waiting" && !entry.value.url ? (openBlock(), createElementBlock("p", _hoisted_10, toDisplayString(unref(t)("waiting")), 1)) : createCommentVNode("", true),
+          entry.value.status === "waiting" && !entry.value.url && !entry.value.lut ? (openBlock(), createElementBlock("p", _hoisted_10, toDisplayString(unref(t)("waiting")), 1)) : createCommentVNode("", true),
           entry.value.status === "error" ? (openBlock(), createElementBlock("p", _hoisted_11, toDisplayString(unref(t)("error")) + ": " + toDisplayString(entry.value.message), 1)) : createCommentVNode("", true)
         ])
       ])) : createCommentVNode("", true);
@@ -7249,7 +7485,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const LivePreview = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-70ead87a"]]);
+const LivePreview = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-b43d174c"]]);
 const UPLOADS = {
   SpektrafilmLoadRaw: {
     widget: "raw_file",

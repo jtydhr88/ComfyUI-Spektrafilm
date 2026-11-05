@@ -27,9 +27,19 @@ MAIN_SPECS = (
 MAIN_ADVANCED = {"enlarger.illuminant", "enlarger.lens_blur"}
 
 SIMULATION_LOCK = threading.Lock()
-LIVE_INPUTS: OrderedDict[str, np.ndarray] = OrderedDict()
 LIVE_CACHE_SIZE = 8
 LIVE_MAX_SIZE = 640
+LIVE_DISPLAY_SIZE = 1536
+
+
+@dataclasses.dataclass
+class LiveInput:
+    preview: np.ndarray
+    display: np.ndarray
+    max: float
+
+
+LIVE_INPUTS: OrderedDict[str, LiveInput] = OrderedDict()
 
 COLOR_SPECS = pm.INPUT_PANEL_FIELDS + (
     dataclasses.replace(pm.SIMULATION_OUTPUT_PANEL_FIELDS[0], tier="basic"),
@@ -39,13 +49,18 @@ COLOR_SPECS = pm.INPUT_PANEL_FIELDS + (
 COLOR_DEFAULTS = {"io.input_color_space": RGBColorSpaces.sRGB.value, "io.input_cctf_decoding": True}
 
 
-def simulator_for(film_stock, print_paper, output, preview, params=None, **values) -> Simulator:
+def params_for(film_stock, print_paper, output, preview, params=None, forced=None, **values):
     overrides = {**COLOR_DEFAULTS, **(params or {})}
     overrides.update({spec.path: spec_value(spec, values) for spec in MAIN_SPECS})
     overrides["settings.preview_mode"] = preview
     if output != "auto":
         overrides["io.scan_film"] = output == "film scan"
-    return Simulator(build_params(film_stock, print_paper, overrides))
+    overrides.update(forced or {})
+    return build_params(film_stock, print_paper, overrides)
+
+
+def simulator_for(*args, **kwargs) -> Simulator:
+    return Simulator(params_for(*args, **kwargs))
 
 
 def render(simulator: Simulator, image: np.ndarray, seed: int) -> np.ndarray:
@@ -92,7 +107,9 @@ class SpektrafilmFilmSimulation(io.ComfyNode):
         workflow = (cls.hidden.extra_pnginfo or {}).get("workflow") or {}
         live_key = f"{workflow.get('id', '')}:{cls.hidden.unique_id}"
         LIVE_INPUTS.pop(live_key, None)
-        LIVE_INPUTS[live_key] = resize_for_preview(frames[0], LIVE_MAX_SIZE)
+        display = resize_for_preview(frames[0], LIVE_DISPLAY_SIZE)
+        LIVE_INPUTS[live_key] = LiveInput(resize_for_preview(frames[0], LIVE_MAX_SIZE), display.astype(np.float16),
+                                          max(1.0, float(display.max())))
         while len(LIVE_INPUTS) > LIVE_CACHE_SIZE:
             LIVE_INPUTS.popitem(last=False)
 

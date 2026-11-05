@@ -1,13 +1,30 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 
 import { t } from '@/i18n'
+import { LutRenderer } from '@/lutRenderer'
 import { useLivePreviewStore } from '@/stores/livePreview'
 
 const { entryId } = defineProps<{ entryId: string }>()
 
 const store = useLivePreviewStore()
 const entry = computed(() => store.entries[entryId])
+const canvas = ref<HTMLCanvasElement>()
+let renderer: LutRenderer | undefined
+
+watch([canvas, () => entry.value?.lut], ([element]) => {
+  const { image, lut } = entry.value ?? {}
+  if (!element || !image || !lut) return
+  try {
+    renderer ??= new LutRenderer(element)
+    renderer.draw(image, lut)
+  } catch (error) {
+    entry.value!.status = 'error'
+    entry.value!.message = String(error)
+  }
+})
+
+onBeforeUnmount(() => renderer?.dispose())
 </script>
 
 <template>
@@ -24,12 +41,13 @@ const entry = computed(() => store.entries[entryId])
       <span v-if="entry.status === 'loading'" class="sf-live__spinner" />
     </div>
     <div class="sf-live__view">
-      <img v-if="entry.url" :src="entry.url" :class="{ 'sf-live__img--stale': entry.status === 'loading' }" class="sf-live__img" />
-      <span v-if="entry.url && (entry.status === 'live' || entry.status === 'result')" class="sf-live__badge">
+      <canvas v-show="entry.view === 'lut'" ref="canvas" class="sf-live__img" />
+      <img v-if="entry.view === 'image' && entry.url" :src="entry.url" :class="{ 'sf-live__img--stale': entry.status === 'loading' }" class="sf-live__img" />
+      <span v-if="entry.status === 'live' || (entry.status === 'result' && entry.url)" class="sf-live__badge">
         {{ entry.status === 'live' ? t('live') : t('result') }}<template v-if="entry.count > 1"> · 1/{{ entry.count }}</template>
       </span>
       <p v-if="entry.status === 'unlinked'" class="sf-live__note">{{ t('unlinked') }}</p>
-      <p v-if="entry.status === 'waiting' && !entry.url" class="sf-live__note">{{ t('waiting') }}</p>
+      <p v-if="entry.status === 'waiting' && !entry.url && !entry.lut" class="sf-live__note">{{ t('waiting') }}</p>
       <p v-if="entry.status === 'error'" class="sf-live__note sf-live__note--error">{{ t('error') }}: {{ entry.message }}</p>
     </div>
   </div>

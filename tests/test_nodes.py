@@ -7,6 +7,7 @@ import numpy as np
 import pytest
 import torch
 from PIL import Image
+from scipy.interpolate import RegularGridInterpolator
 
 from comfy_api.latest import io
 from comfyui_spektrafilm import live_preview, nodes_io, nodes_simulation, params
@@ -189,12 +190,12 @@ def test_live_preview_matches_a_real_run(image):
     run = _run(image, seed=5, params=chain_params)
     real = run.result[0][0].numpy()
     (key,) = run.ui["spektrafilm_live"]
-    assert nodes_simulation.LIVE_INPUTS[key].shape == image.shape[1:]
+    assert nodes_simulation.LIVE_INPUTS[key].preview.shape == image.shape[1:]
 
     main = _defaults(nodes_simulation.SpektrafilmFilmSimulation)
     main.pop("image")
     main["seed"] = 5
-    jpeg = live_preview.render_live(nodes_simulation.LIVE_INPUTS[key], [{"type": "SpektrafilmGrain", "inputs": grain_values}], main, fast=False)
+    jpeg = live_preview.render_live(nodes_simulation.LIVE_INPUTS[key].preview, [{"type": "SpektrafilmGrain", "inputs": grain_values}], main, fast=False)
     live = np.asarray(Image.open(BytesIO(jpeg)), dtype=np.float32) / 255
     assert np.abs(live - real).mean() < 0.01
 
@@ -233,3 +234,26 @@ def test_live_input_is_keyed_by_workflow_and_node(image, monkeypatch):
         _run(image)
     assert "wf-a:7" not in nodes_simulation.LIVE_INPUTS
     assert len(nodes_simulation.LIVE_INPUTS) == nodes_simulation.LIVE_CACHE_SIZE
+
+
+def _apply_lut(lut, gamma, vmax, image):
+    grid = np.linspace(0.0, 1.0, lut.shape[0])
+    coords = np.clip(image / vmax, 0.0, 1.0) ** (1.0 / gamma)
+    return RegularGridInterpolator((grid, grid, grid), lut)(coords[..., ::-1].reshape(-1, 3)).reshape(image.shape)
+
+
+@pytest.mark.parametrize("film_stock", ["kodak_portra_400", "fujifilm_velvia_100"])
+def test_lut_matches_the_per_pixel_simulation(image, film_stock):
+    (key,) = _run(image, film_stock=film_stock).ui["spektrafilm_live"]
+    live = nodes_simulation.LIVE_INPUTS[key]
+    main = _defaults(nodes_simulation.SpektrafilmFilmSimulation)
+    main.pop("image")
+    main.update(film_stock=film_stock, print_y_filter_shift=12.0)
+    lut, gamma = live_preview.bake_lut(live, [], main)
+    approx = _apply_lut(lut, gamma, live.max, live.display.astype(np.float64))
+
+    main.pop("seed")
+    main.pop("preview")
+    forced = {"debug.deactivate_spatial_effects": True, "debug.deactivate_stochastic_effects": True}
+    exact = nodes_simulation.render(nodes_simulation.simulator_for(preview=True, forced=forced, **main), live.preview, 0)
+    assert np.abs(approx - exact).mean() < 0.01
