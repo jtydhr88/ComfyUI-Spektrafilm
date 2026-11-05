@@ -3,7 +3,7 @@ import scipy
 import scipy.ndimage
 from spektrafilm.model.density_curves import interp_density_cmy_layers
 from spektrafilm.runtime.params_schema import GrainParams
-from spektrafilm.utils.fast_stats import fast_binomial, fast_poisson, fast_lognormal_from_mean_std
+from spektrafilm.utils.fast_stats import fast_binomial, fast_poisson, lognormal_from_mean_std
 from spektrafilm.utils.fast_gaussian_filter import fast_gaussian_filter
 
 ################################################################################
@@ -54,8 +54,8 @@ def add_micro_structure(density_cmy_out, micro_structure, pixel_size_um):
     grain_micro_structure_blur_pixel = micro_structure[0]/pixel_size_um
     grain_micro_structure_sigma = micro_structure[1]*0.001/pixel_size_um  # grain microstructure[1] is in nm
     if grain_micro_structure_sigma > 0.05:
-        clumping = fast_lognormal_from_mean_std(np.ones_like(density_cmy_out),
-                                                np.ones_like(density_cmy_out)*grain_micro_structure_sigma)
+        clumping = lognormal_from_mean_std(np.ones_like(density_cmy_out),
+                                           np.ones_like(density_cmy_out)*grain_micro_structure_sigma)
         if grain_micro_structure_blur_pixel>0.4:
             # clumping = scipy.ndimage.gaussian_filter(clumping, (grain_micro_structure_blur_pixel,
             #                                                     grain_micro_structure_blur_pixel, 0))
@@ -84,7 +84,8 @@ def apply_grain_to_density(density_cmy,
     if fixed_seed is not None:
         seed = None
     else:
-        seed = [0, 1, 2]
+        base = np.random.randint(2**31 - 32)
+        seed = [base, base + 1, base + 2]
     
     if n_sub_layers>1:
         n_particles_per_pixel /= n_sub_layers
@@ -138,7 +139,8 @@ def apply_grain_to_density_layers(density_cmy_layers, # x,y,sublayers,rgb
     if fixed_seed is not None:
         seed = None
     else:
-        seed = [0, 1, 2]
+        base = np.random.randint(2**31 - 32)
+        seed = [base, base + 1, base + 2]
     
     density_cmy_layers += density_min_layers
     density_cmy_out = np.zeros(density_cmy_layers.shape[0:3])

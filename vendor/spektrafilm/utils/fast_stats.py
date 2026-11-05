@@ -2,6 +2,11 @@ import numpy as np
 from numba import njit, prange
 from math import sqrt, exp
 
+
+def lognormal_from_mean_std(mean_arr, std_arr):
+    sigma2 = np.log1p((std_arr / mean_arr) ** 2)
+    return np.random.lognormal(np.log(mean_arr) - sigma2 / 2.0, np.sqrt(sigma2))
+
 @njit(parallel=True, cache=True)
 def fast_binomial(N_arr, p_arr):
     """
