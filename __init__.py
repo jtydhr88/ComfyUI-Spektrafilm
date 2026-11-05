@@ -8,7 +8,9 @@ if VENDOR not in sys.path:
 from typing_extensions import override
 
 from comfy_api.latest import ComfyExtension, io
+from server import PromptServer
 
+from .live_preview import register_routes
 from .nodes_io import NODES as IO_NODES
 from .nodes_simulation import NODES as SIMULATION_NODES
 
@@ -22,4 +24,5 @@ class SpektrafilmExtension(ComfyExtension):
 
 
 async def comfy_entrypoint() -> SpektrafilmExtension:
+    register_routes(PromptServer.instance.routes)
     return SpektrafilmExtension()

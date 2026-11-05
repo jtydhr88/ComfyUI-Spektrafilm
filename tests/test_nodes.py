@@ -1,16 +1,27 @@
+import asyncio
 import os
+from io import BytesIO
 from types import SimpleNamespace
 
 import numpy as np
 import pytest
 import torch
+from PIL import Image
 
-from comfyui_spektrafilm import nodes_io, nodes_simulation, params
+from comfy_api.latest import io
+from comfyui_spektrafilm import live_preview, nodes_io, nodes_simulation, params
 from spektrafilm.utils import raw_file_processor
 from spektrafilm.utils.io import load_image_oiio
 from spektrafilm_gui import param_manifest as pm
 
-GROUP_NODES = {n.define_schema().node_id: n for n in nodes_simulation.NODES[1:]}
+GROUP_NODES = nodes_simulation.PARAM_NODES
+
+
+@pytest.fixture(autouse=True)
+def hidden(monkeypatch):
+    monkeypatch.setattr(nodes_simulation.SpektrafilmFilmSimulation, "hidden",
+                        io.HiddenHolder(unique_id="7", prompt=None, extra_pnginfo=None, dynprompt=None,
+                                        auth_token_comfy_org=None, api_key_comfy_org=None), raising=False)
 
 
 def _defaults(node):
@@ -155,3 +166,35 @@ def test_every_params_node_chains_into_a_run(image):
     values.pop("image")
     out = node.execute(image=image, params=chained, **values).result[0]
     assert torch.isfinite(out).all() and out.shape[-1] == 3
+
+
+def _request(body):
+    async def json():
+        return body
+    return SimpleNamespace(json=json)
+
+
+def test_live_preview_matches_a_real_run(image):
+    grain = GROUP_NODES["SpektrafilmGrain"]
+    grain_values = {**_defaults(grain), "particle_area_um2": 0.8}
+    chain_params = grain.execute(**grain_values).result[0]
+    real = _simulate(image, seed=5, params=chain_params)[0].numpy()
+    assert nodes_simulation.LIVE_INPUTS["7"].shape == image.shape[1:]
+
+    main = _defaults(nodes_simulation.SpektrafilmFilmSimulation)
+    main.pop("image")
+    main["seed"] = 5
+    jpeg = live_preview.render_live(nodes_simulation.LIVE_INPUTS["7"], [{"type": "SpektrafilmGrain", "inputs": grain_values}], main, fast=False)
+    live = np.asarray(Image.open(BytesIO(jpeg)), dtype=np.float32) / 255
+    assert np.abs(live - real).mean() < 0.01
+
+
+def test_live_preview_needs_a_run_first():
+    response = asyncio.run(live_preview.live_preview(_request({"key": "missing", "chain": [], "main": {}})))
+    assert response.status == 404
+
+
+def test_live_preview_rejects_bad_requests(image):
+    _simulate(image)
+    response = asyncio.run(live_preview.live_preview(_request({"key": "7", "chain": [{"type": "Nope", "inputs": {}}], "main": {}})))
+    assert response.status == 400

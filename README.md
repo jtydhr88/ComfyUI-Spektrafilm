@@ -31,6 +31,8 @@ All dependencies ship wheels for Windows, Linux and macOS. Everything runs on th
 - camera auto exposure and exposure compensation, print exposure, enlarger Y/M filter shifts
 - input and output color space and transfer function. The defaults (sRGB in, sRGB out) fit normal ComfyUI images.
 
+**Live preview.** Under its outputs the simulation node shows a live preview. Run the workflow once; after that, every change on the simulation node or on the params nodes chained into it re-renders a 640 px preview in a fraction of a second, without queueing the workflow. The `grain & blur` switch adds grain and blurs to the preview (slower). The preview is frontend-only: it is not saved in the workflow and not sent in API prompts.
+
 Every other parameter of the spektrafilm GUI is on a params node. Chain any of them into the `params` input:
 
 | Node | Controls |
@@ -71,6 +73,8 @@ Both loaders have an upload button. Example workflows are in [`example_workflows
 `vendor/spektrafilm` is the upstream runtime, copied unchanged except for one patch in [`patches`](patches): grain and print glare draw from numpy's seeded random state, so a seed gives the same image every time (upstream glare used unseeded parallel numba random numbers). The node widgets are generated from the upstream GUI's parameter manifest (`vendor/spektrafilm_gui/param_manifest.py`), so ranges and tooltips match the spektrafilm GUI.
 
 To update the vendored copy: `python scripts/sync_spektrafilm.py <path to a spektrafilm clone>`. The upstream commit is recorded in `vendor/UPSTREAM`.
+
+The live preview runs in `live_preview.py` (route `POST /spektrafilm/live_preview`). It rebuilds the parameters by calling the params nodes' own `execute`, so it matches a real run, and it renders from a downscaled copy of the input the simulation node saw in its last run. The frontend is Vue + TypeScript in `src/` (a Pinia store keyed by node walks the `params` chain upstream from each simulation node). The built bundle `web/js/main.js` is committed; rebuild it with `npm install && npm run build`.
 
 Tests: `pytest tests` from the ComfyUI Python environment.
 

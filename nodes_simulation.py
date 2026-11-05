@@ -1,3 +1,5 @@
+import threading
+
 import numpy as np
 import torch
 
@@ -6,6 +8,7 @@ import comfy.utils
 from comfy_api.latest import io
 from spektrafilm import Simulator
 from spektrafilm.model.stocks import FilmStocks, PrintPapers
+from spektrafilm.utils.preview import resize_for_preview
 from spektrafilm_gui import param_manifest as pm
 from spektrafilm_gui.options import RGBColorSpaces
 
@@ -25,6 +28,29 @@ MAIN_SPECS = (
 )
 MAIN_DEFAULTS = {"io.input_color_space": RGBColorSpaces.sRGB.value, "io.input_cctf_decoding": True}
 MAIN_ADVANCED = {"enlarger.illuminant", "enlarger.lens_blur"}
+
+SIMULATION_LOCK = threading.Lock()
+LIVE_INPUTS: dict[str, np.ndarray] = {}
+LIVE_MAX_SIZE = 640
+
+
+def simulator_for(film_stock, print_paper, output, preview, params=None, **values) -> Simulator:
+    overrides = dict(params or {})
+    overrides.update({spec.path: spec_value(spec, values) for spec in MAIN_SPECS})
+    overrides["settings.preview_mode"] = preview
+    if output != "auto":
+        overrides["io.scan_film"] = output == "film scan"
+    return Simulator(build_params(film_stock, print_paper, overrides))
+
+
+def render(simulator: Simulator, image: np.ndarray, seed: int) -> np.ndarray:
+    with SIMULATION_LOCK:
+        state = np.random.get_state()
+        try:
+            np.random.seed(seed % 2**32)
+            return np.clip(simulator.process(image), 0.0, 1.0)
+        finally:
+            np.random.set_state(state)
 
 
 class SpektrafilmFilmSimulation(io.ComfyNode):
@@ -51,30 +77,22 @@ class SpektrafilmFilmSimulation(io.ComfyNode):
             description="Spectral simulation of a film negative, enlarger print and scan (spektrafilm).",
             inputs=inputs,
             outputs=[io.Image.Output()],
+            hidden=[io.Hidden.unique_id],
         )
 
     @classmethod
     def execute(cls, image, film_stock, print_paper, output, seed, preview, params=None, **values) -> io.NodeOutput:
-        overrides = dict(params or {})
-        overrides.update({spec.path: spec_value(spec, values) for spec in MAIN_SPECS})
-        overrides["settings.preview_mode"] = preview
-        if output != "auto":
-            overrides["io.scan_film"] = output == "film scan"
-        simulator = Simulator(build_params(film_stock, print_paper, overrides))
+        simulator = simulator_for(film_stock, print_paper, output, preview, params, **values)
+        frames = image[..., :3].double().cpu().numpy()
+        LIVE_INPUTS[cls.hidden.unique_id] = resize_for_preview(frames[0], LIVE_MAX_SIZE)
 
-        pbar = comfy.utils.ProgressBar(len(image))
-        frames = []
-        state = np.random.get_state()
-        try:
-            for i, frame in enumerate(image):
-                comfy.model_management.throw_exception_if_processing_interrupted()
-                np.random.seed((seed + i) % 2**32)
-                result = simulator.process(frame[..., :3].double().cpu().numpy())
-                frames.append(torch.from_numpy(np.clip(result, 0.0, 1.0).astype(np.float32)))
-                pbar.update(1)
-        finally:
-            np.random.set_state(state)
-        return io.NodeOutput(torch.stack(frames))
+        pbar = comfy.utils.ProgressBar(len(frames))
+        results = []
+        for i, frame in enumerate(frames):
+            comfy.model_management.throw_exception_if_processing_interrupted()
+            results.append(torch.from_numpy(render(simulator, frame, seed + i).astype(np.float32)))
+            pbar.update(1)
+        return io.NodeOutput(torch.stack(results), ui={"spektrafilm_live": [cls.hidden.unique_id]})
 
 
 def _group_node(node_id: str, display_name: str, description: str, specs: tuple, stock_preset: tuple = ()):
@@ -164,3 +182,5 @@ NODES = [
     _group_node("SpektrafilmOutputGamut", "Spektrafilm Output Gamut Compress", "Compress output colors into the output color space.",
                 pm.OUTPUT_GAMUT_COMPRESS_MANIFEST.fields),
 ]
+
+PARAM_NODES = {node.define_schema().node_id: node for node in NODES[1:]}
