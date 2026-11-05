@@ -1,5 +1,7 @@
 # ComfyUI-Spektrafilm
 
+English | [中文](README.zh-CN.md)
+
 Spectral simulation of analog film for ComfyUI: your image is exposed onto a virtual negative, printed through a color enlarger onto photographic paper, and scanned. Film stocks, paper, couplers, grain, halation and the enlarger filters all come from manufacturer data sheets.
 
 **Film modeling powered by [spektrafilm](https://github.com/andreavolpato/spektrafilm)** by Andrea Volpato. This pack is a ComfyUI front end to its runtime; all the color science is his. If you like the results, star the upstream repo or [buy him a coffee](https://buymeacoffee.com/andreavolpato).
