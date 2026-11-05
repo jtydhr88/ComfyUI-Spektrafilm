@@ -1,5 +1,6 @@
 import dataclasses
 import threading
+from collections import OrderedDict
 
 import numpy as np
 import torch
@@ -26,7 +27,8 @@ MAIN_SPECS = (
 MAIN_ADVANCED = {"enlarger.illuminant", "enlarger.lens_blur"}
 
 SIMULATION_LOCK = threading.Lock()
-LIVE_INPUTS: dict[str, np.ndarray] = {}
+LIVE_INPUTS: OrderedDict[str, np.ndarray] = OrderedDict()
+LIVE_CACHE_SIZE = 8
 LIVE_MAX_SIZE = 640
 
 COLOR_SPECS = pm.INPUT_PANEL_FIELDS + (
@@ -80,14 +82,19 @@ class SpektrafilmFilmSimulation(io.ComfyNode):
             description="Spectral simulation of a film negative, enlarger print and scan (spektrafilm).",
             inputs=inputs,
             outputs=[io.Image.Output()],
-            hidden=[io.Hidden.unique_id],
+            hidden=[io.Hidden.unique_id, io.Hidden.extra_pnginfo],
         )
 
     @classmethod
     def execute(cls, image, film_stock, print_paper, output, seed, preview, params=None, **values) -> io.NodeOutput:
         simulator = simulator_for(film_stock, print_paper, output, preview, params, **values)
         frames = image[..., :3].double().cpu().numpy()
-        LIVE_INPUTS[cls.hidden.unique_id] = resize_for_preview(frames[0], LIVE_MAX_SIZE)
+        workflow = (cls.hidden.extra_pnginfo or {}).get("workflow") or {}
+        live_key = f"{workflow.get('id', '')}:{cls.hidden.unique_id}"
+        LIVE_INPUTS.pop(live_key, None)
+        LIVE_INPUTS[live_key] = resize_for_preview(frames[0], LIVE_MAX_SIZE)
+        while len(LIVE_INPUTS) > LIVE_CACHE_SIZE:
+            LIVE_INPUTS.popitem(last=False)
 
         pbar = comfy.utils.ProgressBar(len(frames))
         results = []
@@ -95,7 +102,7 @@ class SpektrafilmFilmSimulation(io.ComfyNode):
             comfy.model_management.throw_exception_if_processing_interrupted()
             results.append(torch.from_numpy(render(simulator, frame, seed + i).astype(np.float32)))
             pbar.update(1)
-        return io.NodeOutput(torch.stack(results), ui={"spektrafilm_live": [cls.hidden.unique_id]})
+        return io.NodeOutput(torch.stack(results), ui={"spektrafilm_live": [live_key]})
 
 
 def _group_node(node_id: str, display_name: str, description: str, specs: tuple, stock_preset: tuple = (), defaults: dict | None = None):

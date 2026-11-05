@@ -17,23 +17,31 @@ from spektrafilm_gui import param_manifest as pm
 GROUP_NODES = nodes_simulation.PARAM_NODES
 
 
+def _hidden(monkeypatch, unique_id="7", workflow_id="wf-a"):
+    monkeypatch.setattr(nodes_simulation.SpektrafilmFilmSimulation, "hidden",
+                        io.HiddenHolder(unique_id=unique_id, prompt=None, extra_pnginfo={"workflow": {"id": workflow_id}},
+                                        dynprompt=None, auth_token_comfy_org=None, api_key_comfy_org=None), raising=False)
+
+
 @pytest.fixture(autouse=True)
 def hidden(monkeypatch):
-    monkeypatch.setattr(nodes_simulation.SpektrafilmFilmSimulation, "hidden",
-                        io.HiddenHolder(unique_id="7", prompt=None, extra_pnginfo=None, dynprompt=None,
-                                        auth_token_comfy_org=None, api_key_comfy_org=None), raising=False)
+    _hidden(monkeypatch)
 
 
 def _defaults(node):
     return {i.id: getattr(i, "default", None) for i in node.define_schema().inputs if i.id != "params"}
 
 
-def _simulate(image, **kw):
+def _run(image, **kw):
     node = nodes_simulation.SpektrafilmFilmSimulation
     values = _defaults(node)
     values.pop("image")
     values.update(preview=False, **kw)
-    return node.execute(image=image, **values).result[0]
+    return node.execute(image=image, **values)
+
+
+def _simulate(image, **kw):
+    return _run(image, **kw).result[0]
 
 
 @pytest.fixture(scope="module")
@@ -178,13 +186,15 @@ def test_live_preview_matches_a_real_run(image):
     grain = GROUP_NODES["SpektrafilmGrain"]
     grain_values = {**_defaults(grain), "particle_area_um2": 0.8}
     chain_params = grain.execute(**grain_values).result[0]
-    real = _simulate(image, seed=5, params=chain_params)[0].numpy()
-    assert nodes_simulation.LIVE_INPUTS["7"].shape == image.shape[1:]
+    run = _run(image, seed=5, params=chain_params)
+    real = run.result[0][0].numpy()
+    (key,) = run.ui["spektrafilm_live"]
+    assert nodes_simulation.LIVE_INPUTS[key].shape == image.shape[1:]
 
     main = _defaults(nodes_simulation.SpektrafilmFilmSimulation)
     main.pop("image")
     main["seed"] = 5
-    jpeg = live_preview.render_live(nodes_simulation.LIVE_INPUTS["7"], [{"type": "SpektrafilmGrain", "inputs": grain_values}], main, fast=False)
+    jpeg = live_preview.render_live(nodes_simulation.LIVE_INPUTS[key], [{"type": "SpektrafilmGrain", "inputs": grain_values}], main, fast=False)
     live = np.asarray(Image.open(BytesIO(jpeg)), dtype=np.float32) / 255
     assert np.abs(live - real).mean() < 0.01
 
@@ -195,8 +205,8 @@ def test_live_preview_needs_a_run_first():
 
 
 def test_live_preview_rejects_bad_requests(image):
-    _simulate(image)
-    response = asyncio.run(live_preview.live_preview(_request({"key": "7", "chain": [{"type": "Nope", "inputs": {}}], "main": {}})))
+    (key,) = _run(image).ui["spektrafilm_live"]
+    response = asyncio.run(live_preview.live_preview(_request({"key": key, "chain": [{"type": "Nope", "inputs": {}}], "main": {}})))
     assert response.status == 400
 
 
@@ -211,3 +221,15 @@ def test_preview_node_saves_the_result(folders, image):
     out = nodes_io.SpektrafilmPreview.execute(images=image)
     (saved,) = out.ui["spektrafilm_result"]
     assert saved["type"] == "temp" and (folders / "temp" / saved["filename"]).is_file()
+
+
+def test_live_input_is_keyed_by_workflow_and_node(image, monkeypatch):
+    assert _run(image).ui["spektrafilm_live"] == ["wf-a:7"]
+    _hidden(monkeypatch, workflow_id="wf-b")
+    assert _run(image).ui["spektrafilm_live"] == ["wf-b:7"]
+    assert {"wf-a:7", "wf-b:7"} <= set(nodes_simulation.LIVE_INPUTS)
+    for i in range(nodes_simulation.LIVE_CACHE_SIZE):
+        _hidden(monkeypatch, unique_id=str(100 + i))
+        _run(image)
+    assert "wf-a:7" not in nodes_simulation.LIVE_INPUTS
+    assert len(nodes_simulation.LIVE_INPUTS) == nodes_simulation.LIVE_CACHE_SIZE

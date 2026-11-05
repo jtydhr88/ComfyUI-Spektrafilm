@@ -8,12 +8,12 @@
       "id": 1,
       "type": "LoadImage",
       "pos": [
-        40,
-        60
+        0,
+        0
       ],
       "size": [
         270,
-        102
+        60
       ],
       "flags": {},
       "order": 0,
@@ -66,12 +66,12 @@
       "id": 2,
       "type": "SpektrafilmGrain",
       "pos": [
-        40,
-        460
+        0,
+        430
       ],
       "size": [
         311.796875,
-        490
+        60
       ],
       "flags": {},
       "order": 1,
@@ -295,12 +295,12 @@
       "id": 3,
       "type": "SpektrafilmFilmSimulation",
       "pos": [
-        420,
-        60
+        371.796875,
+        0
       ],
       "size": [
         317.005859375,
-        390
+        60
       ],
       "flags": {},
       "order": 2,
@@ -471,12 +471,12 @@
       "id": 4,
       "type": "SpektrafilmPreview",
       "pos": [
-        820,
-        60
+        748.802734375,
+        0
       ],
       "size": [
-        360,
-        420
+        420,
+        440
       ],
       "flags": {},
       "order": 3,

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { markRaw, reactive } from 'vue'
 
-import { api, type ComfyNode } from '@/comfy'
+import { api, app, type ComfyNode } from '@/comfy'
 import { composeRequest, simulationSource } from '@/graph'
 
 const DEBOUNCE_MS = 120
@@ -56,12 +56,13 @@ export const useLivePreviewStore = defineStore('spektrafilmLivePreview', () => {
     previews.delete(id)
   }
 
-  function request(id: string) {
+  function request(id: string): string | null | undefined {
     const preview = previews.get(id)
     const simulation = preview && simulationSource(preview)
     const entry = entries[id]
     if (!simulation || !entry) return null
-    return JSON.stringify(composeRequest(simulation, inputKeys.get(simulation) ?? String(simulation.id), entry.fast))
+    const key = inputKeys.get(simulation) ?? (simulation.graph === app.rootGraph ? `${app.rootGraph.id}:${simulation.id}` : undefined)
+    return key && JSON.stringify(composeRequest(simulation, key, entry.fast))
   }
 
   function simulationExecuted(simulation: ComfyNode, key: string) {
@@ -96,8 +97,8 @@ export const useLivePreviewStore = defineStore('spektrafilmLivePreview', () => {
     const entry = entries[id]
     if (!entry?.enabled) return
     const body = request(id)
-    if (body === null) {
-      entry.status = 'unlinked'
+    if (!body) {
+      entry.status = body === null ? 'unlinked' : 'waiting'
       entry.signature = ''
       return
     }

@@ -7080,7 +7080,8 @@ const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview"
     const simulation = preview && simulationSource(preview);
     const entry = entries[id];
     if (!simulation || !entry) return null;
-    return JSON.stringify(composeRequest(simulation, inputKeys.get(simulation) ?? String(simulation.id), entry.fast));
+    const key = inputKeys.get(simulation) ?? (simulation.graph === app.rootGraph ? `${app.rootGraph.id}:${simulation.id}` : void 0);
+    return key && JSON.stringify(composeRequest(simulation, key, entry.fast));
   }
   function simulationExecuted(simulation, key) {
     inputKeys.set(markRaw(simulation), key);
@@ -7110,8 +7111,8 @@ const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview"
     const entry = entries[id];
     if (!(entry == null ? void 0 : entry.enabled)) return;
     const body = request(id);
-    if (body === null) {
-      entry.status = "unlinked";
+    if (!body) {
+      entry.status = body === null ? "unlinked" : "waiting";
       entry.signature = "";
       return;
     }
