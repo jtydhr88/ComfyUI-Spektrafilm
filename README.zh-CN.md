@@ -20,7 +20,7 @@ git clone https://github.com/jtydhr88/ComfyUI-Spektrafilm
 pip install -r ComfyUI-Spektrafilm/requirements.txt
 ```
 
-所有依赖在 Windows、Linux、macOS 上都有现成的 wheel。全部在 CPU 上运行（numpy、scipy、numba），不需要模型，也不占显存。
+所有依赖在 Windows、Linux、macOS 上都有现成的 wheel。全部在 CPU 上运行（numpy、scipy、numba）。
 
 ## 节点
 
@@ -32,7 +32,7 @@ pip install -r ComfyUI-Spektrafilm/requirements.txt
 - preview：跳过颗粒和各种模糊，快速看颜色和曝光
 - 相机自动曝光和曝光补偿、冲印曝光、放大机 Y/M 滤镜偏移
 
-**Spektrafilm Preview** 接在模拟节点后面。每次运行后显示结果；两次运行之间它是实时预览（需要先运行一次，才有输入图）。改模拟节点或接在它上面的参数节点的任何值，约 0.2 秒内预览就会更新，不用排队运行：后端把模拟中逐像素的部分烘成一个 33³ 的 3D LUT，浏览器用 WebGL 把它套到输入图上。颗粒、晕光和各种模糊是空间效果，LUT 表达不了；打开 `grain & blur`（颗粒和模糊）开关，就改由后端完整渲染（640px，较慢）。
+**Spektrafilm Preview** 接在模拟节点后面。每次运行后显示结果；两次运行之间它是实时预览（需要先运行一次，才有输入图）。改模拟节点或接在它上面的参数节点的任何值，约 0.2 秒内预览就会更新：后端把模拟中逐像素的部分烘成一个 33³ 的 3D LUT，浏览器用 WebGL 把它套到输入图上。颗粒、晕光和各种模糊是空间效果，打开 `grain & blur`（颗粒和模糊）开关后由后端完整渲染（640px，较慢）。
 
 spektrafilm GUI 里的其他参数都在参数节点上，任意串联后接到模拟节点的 `params` 输入：
 
@@ -54,9 +54,9 @@ spektrafilm GUI 里的其他参数都在参数节点上，任意串联后接到�
 | Spektrafilm Color Space | 输入/输出色彩空间和传递函数（默认 sRGB 进 sRGB 出，适合普通 ComfyUI 图像） |
 | Spektrafilm Input / Output Gamut Compress | 输入和输出时的色域压缩 |
 
-spektrafilm 会按胶片自动设定成色剂和晕光强度；这几个字段只有打开 `override stock preset`（覆盖胶片预设）后才生效。
+spektrafilm 会按胶片自动设定成色剂和晕光强度；打开 `override stock preset`（覆盖胶片预设）后，这几个字段生效。
 
-**Spektrafilm Load RAW** 用 rawpy / LibRaw 解相机 RAW，白平衡可选机内、日光、钨丝灯或自定义，可选 lensfun 镜头校正。超过 1 的浮点值会保留，高光可以完整进入模拟。宽色域输入时，在这里和 Spektrafilm Color Space 节点上设成同一个色彩空间（例如 ProPhoto RGB，不加传递函数）。
+**Spektrafilm Load RAW** 用 rawpy / LibRaw 解相机 RAW，白平衡可选机内、日光、钨丝灯或自定义，可选 lensfun 镜头校正。超过 1 的浮点值会保留，高光可以完整进入模拟。宽色域输入时，在这里和 Spektrafilm Color Space 节点上设成同一个色彩空间（例如线性 ProPhoto RGB）。
 
 **Spektrafilm Load Image (16/32-bit)** 用 OpenImageIO 按原始精度读取 EXR、16/32 位 TIFF 或 16 位 PNG。
 
@@ -72,7 +72,7 @@ spektrafilm 会按胶片自动设定成色剂和晕光强度；这几个字段�
 
 ## 实现说明
 
-`vendor/spektrafilm` 是上游运行时，原样复制，只有 [`patches`](patches) 里的一个补丁：颗粒和相纸眩光改用 numpy 带种子的随机状态，同一个 seed 每次出图都一样（上游的眩光用的是没有种子的并行 numba 随机数）。节点控件由上游 GUI 的参数清单（`vendor/spektrafilm_gui/param_manifest.py`）生成，范围和提示与 spektrafilm GUI 一致。
+`vendor/spektrafilm` 是上游运行时，加上 [`patches`](patches) 里的一个补丁：颗粒和相纸眩光改用 numpy 带种子的随机状态，同一个 seed 每次出图都一样。节点控件由上游 GUI 的参数清单（`vendor/spektrafilm_gui/param_manifest.py`）生成，范围和提示与 spektrafilm GUI 一致。
 
 更新 vendor 副本：`python scripts/sync_spektrafilm.py <spektrafilm 克隆路径>`。上游 commit 记录在 `vendor/UPSTREAM`。
 

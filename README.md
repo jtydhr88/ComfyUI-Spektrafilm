@@ -20,7 +20,7 @@ git clone https://github.com/jtydhr88/ComfyUI-Spektrafilm
 pip install -r ComfyUI-Spektrafilm/requirements.txt
 ```
 
-All dependencies ship wheels for Windows, Linux and macOS. Everything runs on the CPU (numpy, scipy and numba); no models and no VRAM are needed.
+All dependencies ship wheels for Windows, Linux and macOS. Everything runs on the CPU (numpy, scipy and numba).
 
 ## Nodes
 
@@ -32,7 +32,7 @@ All dependencies ship wheels for Windows, Linux and macOS. Everything runs on th
 - preview: skips grain and blurs for a fast look at color and exposure
 - camera auto exposure and exposure compensation, print exposure, enlarger Y/M filter shifts
 
-**Spektrafilm Preview** goes after the simulation node. It shows the result of each run, and between runs it is a live preview (run once first, so it has an input image). Every change on the simulation node or on the params nodes chained into it updates the preview in about 0.2 s without queueing the workflow: the backend bakes the per-pixel part of the simulation into a 33³ 3D LUT and the browser applies it to the input image with WebGL. Grain, halation and blurs are spatial and not in the LUT; turn on `grain & blur` to render them on the backend instead (640 px, slower).
+**Spektrafilm Preview** goes after the simulation node. It shows the result of each run, and between runs it is a live preview (run once first, so it has an input image). Every change on the simulation node or on the params nodes chained into it updates the preview in about 0.2 s: the backend bakes the per-pixel part of the simulation into a 33³ 3D LUT and the browser applies it to the input image with WebGL. Grain, halation and blurs are spatial effects; turn on `grain & blur` to render them on the backend (640 px, slower).
 
 Every other parameter of the spektrafilm GUI is on a params node. Chain any of them into the `params` input:
 
@@ -54,9 +54,9 @@ Every other parameter of the spektrafilm GUI is on a params node. Chain any of t
 | Spektrafilm Color Space | input/output color space and transfer function (default sRGB in and out, right for normal ComfyUI images) |
 | Spektrafilm Input / Output Gamut Compress | gamut compression on the way in and out |
 
-spektrafilm tunes coupler and halation strength per stock; those fields only apply when `override stock preset` is on.
+spektrafilm tunes coupler and halation strength per stock; those fields apply when `override stock preset` is on.
 
-**Spektrafilm Load RAW** demosaics a camera RAW (rawpy / LibRaw) with as-shot, daylight, tungsten or custom white balance and optional lensfun lens correction. Float values above 1 are kept, so highlights survive into the simulation. For wide-gamut input set the same color space (e.g. ProPhoto RGB, no transfer function) here and on a Spektrafilm Color Space node.
+**Spektrafilm Load RAW** demosaics a camera RAW (rawpy / LibRaw) with as-shot, daylight, tungsten or custom white balance and optional lensfun lens correction. Float values above 1 are kept, so highlights survive into the simulation. For wide-gamut input set the same color space (e.g. linear ProPhoto RGB) here and on a Spektrafilm Color Space node.
 
 **Spektrafilm Load Image (16/32-bit)** loads EXR, 16/32-bit TIFF or 16-bit PNG at full precision (OpenImageIO).
 
@@ -72,7 +72,7 @@ Both loaders have an upload button. Example workflows are in [`example_workflows
 
 ## How it is built
 
-`vendor/spektrafilm` is the upstream runtime, copied unchanged except for one patch in [`patches`](patches): grain and print glare draw from numpy's seeded random state, so a seed gives the same image every time (upstream glare used unseeded parallel numba random numbers). The node widgets are generated from the upstream GUI's parameter manifest (`vendor/spektrafilm_gui/param_manifest.py`), so ranges and tooltips match the spektrafilm GUI.
+`vendor/spektrafilm` is the upstream runtime plus one patch in [`patches`](patches): grain and print glare draw from numpy's seeded random state, so a seed gives the same image every time. The node widgets are generated from the upstream GUI's parameter manifest (`vendor/spektrafilm_gui/param_manifest.py`), so ranges and tooltips match the spektrafilm GUI.
 
 To update the vendored copy: `python scripts/sync_spektrafilm.py <path to a spektrafilm clone>`. The upstream commit is recorded in `vendor/UPSTREAM`.
 
