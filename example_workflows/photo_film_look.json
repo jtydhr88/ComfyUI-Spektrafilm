@@ -1,5 +1,5 @@
 {
-  "id": "cb4c2bd3-3b0f-41a4-9df3-d44a9159c8a3",
+  "id": "00986a02-7b3f-43ec-9a17-347eb7dbfc10",
   "revision": 0,
   "last_node_id": 4,
   "last_link_id": 3,
@@ -13,7 +13,7 @@
       ],
       "size": [
         270,
-        314
+        102
       ],
       "flags": {},
       "order": 0,
@@ -58,7 +58,7 @@
         "image"
       ],
       "widgets_values_named": {
-        "image": "astronaut.png",
+        "image": "example.png",
         "upload": "image"
       }
     },
@@ -295,12 +295,12 @@
       "id": 3,
       "type": "SpektrafilmFilmSimulation",
       "pos": [
-        440,
+        420,
         60
       ],
       "size": [
         317.005859375,
-        486
+        390
       ],
       "flags": {},
       "order": 2,
@@ -420,38 +420,6 @@
             "name": "enlarger_lens_blur"
           },
           "link": null
-        },
-        {
-          "name": "input_color_space",
-          "type": "COMBO",
-          "widget": {
-            "name": "input_color_space"
-          },
-          "link": null
-        },
-        {
-          "name": "input_cctf_decoding",
-          "type": "BOOLEAN",
-          "widget": {
-            "name": "input_cctf_decoding"
-          },
-          "link": null
-        },
-        {
-          "name": "output_color_space",
-          "type": "COMBO",
-          "widget": {
-            "name": "output_color_space"
-          },
-          "link": null
-        },
-        {
-          "name": "output_cctf_encoding",
-          "type": "BOOLEAN",
-          "widget": {
-            "name": "output_cctf_encoding"
-          },
-          "link": null
         }
       ],
       "outputs": [
@@ -470,7 +438,7 @@
         "kodak_portra_400",
         "kodak_portra_endura",
         "auto",
-        1602407403,
+        0,
         "randomize",
         false,
         true,
@@ -480,17 +448,13 @@
         0,
         0,
         "TH-KG3",
-        0,
-        "sRGB",
-        true,
-        "sRGB",
-        true
+        0
       ],
       "widgets_values_named": {
         "film_stock": "kodak_portra_400",
         "print_paper": "kodak_portra_endura",
         "output": "auto",
-        "seed": 1602407403,
+        "seed": 0,
         "control_after_generate": "randomize",
         "preview": false,
         "auto_exposure": true,
@@ -500,23 +464,19 @@
         "print_y_filter_shift": 0,
         "print_m_filter_shift": 0,
         "print_illuminant": "TH-KG3",
-        "enlarger_lens_blur": 0,
-        "input_color_space": "sRGB",
-        "input_cctf_decoding": true,
-        "output_color_space": "sRGB",
-        "output_cctf_encoding": true
+        "enlarger_lens_blur": 0
       }
     },
     {
       "id": 4,
-      "type": "PreviewImage",
+      "type": "SpektrafilmPreview",
       "pos": [
-        900,
+        820,
         60
       ],
       "size": [
-        140,
-        246
+        360,
+        420
       ],
       "flags": {},
       "order": 3,
@@ -528,15 +488,9 @@
           "link": 3
         }
       ],
-      "outputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "links": null
-        }
-      ],
+      "outputs": [],
       "properties": {
-        "Node name for S&R": "PreviewImage"
+        "Node name for S&R": "SpektrafilmPreview"
       },
       "widgets_values": [],
       "widgets_values_named": {}

@@ -1,3 +1,4 @@
+import dataclasses
 import threading
 
 import numpy as np
@@ -21,21 +22,23 @@ MAIN_SPECS = (
     + pm.SIMULATION_SPECIAL_BORROWED_FIELDS
     + (ParamSpec("enlarger.lens_blur", name="enlarger_lens_blur", min=0, step=0.05,
                  tooltip="Sigma of gaussian filter in pixel for the enlarger lens blur."),)
-    + pm.INPUT_PANEL_FIELDS
-    + (pm.SIMULATION_OUTPUT_PANEL_FIELDS[0],
-       ParamSpec("io.output_cctf_encoding", label="apply CCTF encoding", tier="basic",
-                 tooltip="Apply the transfer function of the output color space. Turn off for linear output."))
 )
-MAIN_DEFAULTS = {"io.input_color_space": RGBColorSpaces.sRGB.value, "io.input_cctf_decoding": True}
 MAIN_ADVANCED = {"enlarger.illuminant", "enlarger.lens_blur"}
 
 SIMULATION_LOCK = threading.Lock()
 LIVE_INPUTS: dict[str, np.ndarray] = {}
 LIVE_MAX_SIZE = 640
 
+COLOR_SPECS = pm.INPUT_PANEL_FIELDS + (
+    dataclasses.replace(pm.SIMULATION_OUTPUT_PANEL_FIELDS[0], tier="basic"),
+    ParamSpec("io.output_cctf_encoding", label="apply CCTF encoding", tier="basic",
+              tooltip="Apply the transfer function of the output color space. Turn off for linear output."),
+)
+COLOR_DEFAULTS = {"io.input_color_space": RGBColorSpaces.sRGB.value, "io.input_cctf_decoding": True}
+
 
 def simulator_for(film_stock, print_paper, output, preview, params=None, **values) -> Simulator:
-    overrides = dict(params or {})
+    overrides = {**COLOR_DEFAULTS, **(params or {})}
     overrides.update({spec.path: spec_value(spec, values) for spec in MAIN_SPECS})
     overrides["settings.preview_mode"] = preview
     if output != "auto":
@@ -68,7 +71,7 @@ class SpektrafilmFilmSimulation(io.ComfyNode):
                              tooltip="Skip grain and blurs for a fast look at color and exposure."),
         ]
         for spec in MAIN_SPECS:
-            inputs += spec_inputs(spec, MAIN_DEFAULTS.get(spec.path), spec.path in MAIN_ADVANCED)
+            inputs += spec_inputs(spec, advanced=spec.path in MAIN_ADVANCED)
         inputs.append(Params.Input("params", optional=True, tooltip="Settings from the other Spektrafilm nodes."))
         return io.Schema(
             node_id="SpektrafilmFilmSimulation",
@@ -95,7 +98,7 @@ class SpektrafilmFilmSimulation(io.ComfyNode):
         return io.NodeOutput(torch.stack(results), ui={"spektrafilm_live": [cls.hidden.unique_id]})
 
 
-def _group_node(node_id: str, display_name: str, description: str, specs: tuple, stock_preset: tuple = ()):
+def _group_node(node_id: str, display_name: str, description: str, specs: tuple, stock_preset: tuple = (), defaults: dict | None = None):
     class GroupNode(io.ComfyNode):
         @classmethod
         def define_schema(cls):
@@ -105,7 +108,7 @@ def _group_node(node_id: str, display_name: str, description: str, specs: tuple,
                                                tooltip=f"Use the values below for {', '.join(stock_preset)} instead of the ones spektrafilm picks for the chosen film stock."))
             all_advanced = all(spec.tier != "basic" for spec in specs)
             for spec in specs:
-                inputs += spec_inputs(spec, advanced=False if all_advanced else None)
+                inputs += spec_inputs(spec, (defaults or {}).get(spec.path), advanced=False if all_advanced else None)
             return io.Schema(node_id=node_id, display_name=display_name, category=f"{CATEGORY}/params",
                              description=description, inputs=inputs, outputs=[Params.Output()])
 
@@ -177,6 +180,8 @@ NODES = [
                 pm.CROP_PANEL_FIELDS),
     _group_node("SpektrafilmSpectral", "Spektrafilm Spectral Upsampling", "How RGB is turned into spectra, and the enlarger/scanner LUTs.",
                 pm.SPECTRAL_PANEL_FIELDS + LUT_SPECS),
+    _group_node("SpektrafilmColorSpace", "Spektrafilm Color Space", "Color space and transfer function of the input image and of the output. Defaults to sRGB in and out.",
+                COLOR_SPECS, defaults=COLOR_DEFAULTS),
     _group_node("SpektrafilmInputGamut", "Spektrafilm Input Gamut Compress", "Compress input colors toward the visible locus before spectral upsampling.",
                 pm.INPUT_GAMUT_COMPRESS_MANIFEST.fields),
     _group_node("SpektrafilmOutputGamut", "Spektrafilm Output Gamut Compress", "Compress output colors into the output color space.",

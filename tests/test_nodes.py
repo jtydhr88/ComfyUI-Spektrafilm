@@ -198,3 +198,16 @@ def test_live_preview_rejects_bad_requests(image):
     _simulate(image)
     response = asyncio.run(live_preview.live_preview(_request({"key": "7", "chain": [{"type": "Nope", "inputs": {}}], "main": {}})))
     assert response.status == 400
+
+
+def test_color_space_defaults_to_srgb(image):
+    color = GROUP_NODES["SpektrafilmColorSpace"]
+    explicit = color.execute(**_defaults(color)).result[0]
+    assert explicit["io.input_color_space"] == "sRGB" and explicit["io.input_cctf_decoding"] is True
+    assert torch.equal(_simulate(image, seed=2), _simulate(image, seed=2, params=explicit))
+
+
+def test_preview_node_saves_the_result(folders, image):
+    out = nodes_io.SpektrafilmPreview.execute(images=image)
+    (saved,) = out.ui["spektrafilm_result"]
+    assert saved["type"] == "temp" and (folders / "temp" / saved["filename"]).is_file()

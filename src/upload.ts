@@ -41,5 +41,6 @@ export function addUploadButton(node: ComfyNode) {
     if (file) await upload(file, combo)
     input.value = ''
   }
-  node.addWidget('button', t('upload'), '', () => input.click(), { serialize: false })
+  const button = node.addWidget('button', t('upload'), '', () => input.click(), { serialize: false })
+  button.serialize = false
 }

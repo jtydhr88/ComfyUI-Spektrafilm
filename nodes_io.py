@@ -70,9 +70,9 @@ class SpektrafilmLoadRaw(io.ComfyNode):
                 io.Boolean.Input("lens_correction", display_name="lens correction", default=False,
                                  tooltip="Correct vignetting, chromatic aberration and distortion with lensfun, from the camera and lens in the EXIF data."),
                 io.Combo.Input("color_space", display_name="color space", options=COLOR_SPACES, default=RGBColorSpaces.sRGB.value,
-                               tooltip="Color space of the output image. Set the same input color space on Spektrafilm Film Simulation."),
+                               tooltip="Color space of the output image. Set the same input color space on a Spektrafilm Color Space node."),
                 io.Boolean.Input("cctf_encoding", display_name="apply CCTF encoding", default=True,
-                                 tooltip="Apply the color space transfer function. Set the same value as apply CCTF decoding on Spektrafilm Film Simulation. Values above 1 are kept."),
+                                 tooltip="Apply the color space transfer function. Set the same value as apply CCTF decoding on a Spektrafilm Color Space node. Values above 1 are kept."),
             ],
             outputs=[io.Image.Output()],
         )
@@ -170,4 +170,25 @@ class SpektrafilmSaveImage(io.ComfyNode):
         return io.NodeOutput(ui=ui.PreviewImage(images, cls=cls))
 
 
-NODES = [SpektrafilmLoadRaw, SpektrafilmLoadImage, SpektrafilmSaveImage]
+class SpektrafilmPreview(io.ComfyNode):
+    @classmethod
+    def define_schema(cls):
+        return io.Schema(
+            node_id="SpektrafilmPreview",
+            display_name="Spektrafilm Preview",
+            category=CATEGORY,
+            description="Shows the simulation result. Between runs it re-renders a live preview whenever the simulation node or its params nodes change.",
+            inputs=[io.Image.Input("images", tooltip="Output of Spektrafilm Film Simulation.")],
+            outputs=[],
+            hidden=[io.Hidden.prompt, io.Hidden.extra_pnginfo],
+            is_output_node=True,
+        )
+
+    @classmethod
+    def execute(cls, images) -> io.NodeOutput:
+        results = ui.ImageSaveHelper.save_images(images, filename_prefix="spektrafilm_preview", folder_type=io.FolderType.temp,
+                                                 cls=cls, compress_level=1)
+        return io.NodeOutput(ui={"spektrafilm_result": results})
+
+
+NODES = [SpektrafilmLoadRaw, SpektrafilmLoadImage, SpektrafilmSaveImage, SpektrafilmPreview]

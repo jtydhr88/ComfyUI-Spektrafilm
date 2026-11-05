@@ -3,7 +3,7 @@
   try {
     if (typeof document != "undefined") {
       var elementStyle = document.createElement("style");
-      elementStyle.appendChild(document.createTextNode(".sf-live[data-v-e9f955bd] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n  height: 100%;\n  font-size: 12px;\n  color: var(--input-text, #ddd);\n}\n.sf-live__bar[data-v-e9f955bd] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.sf-live__switch[data-v-e9f955bd] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 0;\n  border: 0;\n  background: none;\n  color: inherit;\n  font: inherit;\n  cursor: pointer;\n  user-select: none;\n}\n.sf-live__switch[data-v-e9f955bd]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.sf-live__track[data-v-e9f955bd] {\n  display: inline-flex;\n  align-items: center;\n  width: 36px;\n  height: 20px;\n  padding: 0 2px;\n  box-sizing: border-box;\n  border-radius: 9999px;\n  background: var(--border, #444);\n  transition: background-color 0.15s;\n}\n.sf-live__thumb[data-v-e9f955bd] {\n  width: 16px;\n  height: 16px;\n  border-radius: 9999px;\n  background: var(--background, #fff);\n  box-shadow: 0 1px 2px rgb(0 0 0 / 0.3);\n  transition: transform 0.15s;\n}\n.sf-live__switch[aria-checked='true'] .sf-live__track[data-v-e9f955bd] {\n  background: var(--primary, #3b82f6);\n}\n.sf-live__switch[aria-checked='true'] .sf-live__thumb[data-v-e9f955bd] {\n  transform: translateX(14px);\n}\n.sf-live__spinner[data-v-e9f955bd] {\n  width: 10px;\n  height: 10px;\n  margin-left: auto;\n  border: 2px solid var(--descrip-text, #999);\n  border-top-color: transparent;\n  border-radius: 50%;\n  animation: sf-spin-e9f955bd 0.8s linear infinite;\n}\n.sf-live__view[data-v-e9f955bd] {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 6px;\n  background: var(--comfy-input-bg, #222);\n  overflow: hidden;\n}\n.sf-live__img[data-v-e9f955bd] {\n  max-width: 100%;\n  max-height: 100%;\n  object-fit: contain;\n  transition: opacity 0.15s;\n}\n.sf-live__img--stale[data-v-e9f955bd] {\n  opacity: 0.7;\n}\n.sf-live__note[data-v-e9f955bd] {\n  margin: 0;\n  padding: 12px;\n  text-align: center;\n  color: var(--descrip-text, #999);\n}\n.sf-live__note--error[data-v-e9f955bd] {\n  position: absolute;\n  inset: auto 0 0 0;\n  color: var(--error-text, #f87171);\n  background: color-mix(in srgb, var(--comfy-input-bg, #222) 85%, transparent);\n}\n@keyframes sf-spin-e9f955bd {\nto { transform: rotate(360deg);\n}\n}"));
+      elementStyle.appendChild(document.createTextNode(".sf-live[data-v-70ead87a] {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  width: 100%;\n  height: 100%;\n  font-size: 12px;\n  color: var(--input-text, #ddd);\n}\n.sf-live__bar[data-v-70ead87a] {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.sf-live__switch[data-v-70ead87a] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 0;\n  border: 0;\n  background: none;\n  color: inherit;\n  font: inherit;\n  cursor: pointer;\n  user-select: none;\n}\n.sf-live__switch[data-v-70ead87a]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.sf-live__track[data-v-70ead87a] {\n  display: inline-flex;\n  align-items: center;\n  width: 36px;\n  height: 20px;\n  padding: 0 2px;\n  box-sizing: border-box;\n  border-radius: 9999px;\n  background: var(--border, #444);\n  transition: background-color 0.15s;\n}\n.sf-live__thumb[data-v-70ead87a] {\n  width: 16px;\n  height: 16px;\n  border-radius: 9999px;\n  background: var(--background, #fff);\n  box-shadow: 0 1px 2px rgb(0 0 0 / 0.3);\n  transition: transform 0.15s;\n}\n.sf-live__switch[aria-checked='true'] .sf-live__track[data-v-70ead87a] {\n  background: var(--primary, #3b82f6);\n}\n.sf-live__switch[aria-checked='true'] .sf-live__thumb[data-v-70ead87a] {\n  transform: translateX(14px);\n}\n.sf-live__spinner[data-v-70ead87a] {\n  width: 10px;\n  height: 10px;\n  margin-left: auto;\n  border: 2px solid var(--descrip-text, #999);\n  border-top-color: transparent;\n  border-radius: 50%;\n  animation: sf-spin-70ead87a 0.8s linear infinite;\n}\n.sf-live__view[data-v-70ead87a] {\n  position: relative;\n  flex: 1;\n  min-height: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 6px;\n  background: var(--comfy-input-bg, #222);\n  overflow: hidden;\n}\n.sf-live__img[data-v-70ead87a] {\n  max-width: 100%;\n  max-height: 100%;\n  object-fit: contain;\n  transition: opacity 0.15s;\n}\n.sf-live__img--stale[data-v-70ead87a] {\n  opacity: 0.7;\n}\n.sf-live__badge[data-v-70ead87a] {\n  position: absolute;\n  top: 6px;\n  left: 6px;\n  padding: 1px 6px;\n  border-radius: 4px;\n  font-size: 11px;\n  background: color-mix(in srgb, var(--comfy-input-bg, #222) 80%, transparent);\n}\n.sf-live__note[data-v-70ead87a] {\n  margin: 0;\n  padding: 12px;\n  text-align: center;\n  color: var(--descrip-text, #999);\n}\n.sf-live__note--error[data-v-70ead87a] {\n  position: absolute;\n  inset: auto 0 0 0;\n  color: var(--error-text, #f87171);\n  background: color-mix(in srgb, var(--comfy-input-bg, #222) 85%, transparent);\n}\n@keyframes sf-spin-70ead87a {\nto { transform: rotate(360deg);\n}\n}"));
       document.head.appendChild(elementStyle);
     }
   } catch (e) {
@@ -1713,8 +1713,8 @@ class ObjectRefImpl {
     return getDepFromReactive(this._raw, this._key);
   }
 }
-function propertyToRef(source, key, defaultValue) {
-  return new ObjectRefImpl(source, key, defaultValue);
+function propertyToRef(source2, key, defaultValue) {
+  return new ObjectRefImpl(source2, key, defaultValue);
 }
 class ComputedRefImpl {
   constructor(fn, setter, isSSR) {
@@ -1780,13 +1780,13 @@ function onWatcherCleanup(cleanupFn, failSilently = false, owner = activeWatcher
     cleanups.push(cleanupFn);
   }
 }
-function watch$1(source, cb, options = EMPTY_OBJ) {
+function watch$1(source2, cb, options = EMPTY_OBJ) {
   const { immediate, deep, once, scheduler, augmentJob, call } = options;
-  const reactiveGetter = (source2) => {
-    if (deep) return source2;
-    if (/* @__PURE__ */ isShallow(source2) || deep === false || deep === 0)
-      return traverse(source2, 1);
-    return traverse(source2);
+  const reactiveGetter = (source22) => {
+    if (deep) return source22;
+    if (/* @__PURE__ */ isShallow(source22) || deep === false || deep === 0)
+      return traverse(source22, 1);
+    return traverse(source22);
   };
   let effect2;
   let getter;
@@ -1794,16 +1794,16 @@ function watch$1(source, cb, options = EMPTY_OBJ) {
   let boundCleanup;
   let forceTrigger = false;
   let isMultiSource = false;
-  if (/* @__PURE__ */ isRef(source)) {
-    getter = () => source.value;
-    forceTrigger = /* @__PURE__ */ isShallow(source);
-  } else if (/* @__PURE__ */ isReactive(source)) {
-    getter = () => reactiveGetter(source);
+  if (/* @__PURE__ */ isRef(source2)) {
+    getter = () => source2.value;
+    forceTrigger = /* @__PURE__ */ isShallow(source2);
+  } else if (/* @__PURE__ */ isReactive(source2)) {
+    getter = () => reactiveGetter(source2);
     forceTrigger = true;
-  } else if (isArray(source)) {
+  } else if (isArray(source2)) {
     isMultiSource = true;
-    forceTrigger = source.some((s) => /* @__PURE__ */ isReactive(s) || /* @__PURE__ */ isShallow(s));
-    getter = () => source.map((s) => {
+    forceTrigger = source2.some((s) => /* @__PURE__ */ isReactive(s) || /* @__PURE__ */ isShallow(s));
+    getter = () => source2.map((s) => {
       if (/* @__PURE__ */ isRef(s)) {
         return s.value;
       } else if (/* @__PURE__ */ isReactive(s)) {
@@ -1812,9 +1812,9 @@ function watch$1(source, cb, options = EMPTY_OBJ) {
         return call ? call(s, 2) : s();
       } else ;
     });
-  } else if (isFunction(source)) {
+  } else if (isFunction(source2)) {
     if (cb) {
-      getter = call ? () => call(source, 2) : source;
+      getter = call ? () => call(source2, 2) : source2;
     } else {
       getter = () => {
         if (cleanup) {
@@ -1828,7 +1828,7 @@ function watch$1(source, cb, options = EMPTY_OBJ) {
         const currentEffect = activeWatcher;
         activeWatcher = effect2;
         try {
-          return call ? call(source, 3, [boundCleanup]) : source(boundCleanup);
+          return call ? call(source2, 3, [boundCleanup]) : source2(boundCleanup);
         } finally {
           activeWatcher = currentEffect;
         }
@@ -1859,7 +1859,7 @@ function watch$1(source, cb, options = EMPTY_OBJ) {
       }
     };
   }
-  let oldValue = isMultiSource ? new Array(source.length).fill(INITIAL_WATCHER_VALUE) : INITIAL_WATCHER_VALUE;
+  let oldValue = isMultiSource ? new Array(source2.length).fill(INITIAL_WATCHER_VALUE) : INITIAL_WATCHER_VALUE;
   const job = (immediateFirstRun) => {
     if (!(effect2.flags & 1) || !effect2.dirty && !immediateFirstRun) {
       return;
@@ -2409,10 +2409,10 @@ const useSSRContext = () => {
     return ctx;
   }
 };
-function watch(source, cb, options) {
-  return doWatch(source, cb, options);
+function watch(source2, cb, options) {
+  return doWatch(source2, cb, options);
 }
-function doWatch(source, cb, options = EMPTY_OBJ) {
+function doWatch(source2, cb, options = EMPTY_OBJ) {
   const { immediate, deep, flush, once } = options;
   const baseWatchOptions = extend({}, options);
   const runsImmediately = cb && immediate || !cb && flush !== "post";
@@ -2460,7 +2460,7 @@ function doWatch(source, cb, options = EMPTY_OBJ) {
       }
     }
   };
-  const watchHandle = watch$1(source, cb, baseWatchOptions);
+  const watchHandle = watch$1(source2, cb, baseWatchOptions);
   if (isInSSRComponentSetup) {
     if (ssrCleanup) {
       ssrCleanup.push(watchHandle);
@@ -2470,9 +2470,9 @@ function doWatch(source, cb, options = EMPTY_OBJ) {
   }
   return watchHandle;
 }
-function instanceWatch(source, value, options) {
+function instanceWatch(source2, value, options) {
   const publicThis = this.proxy;
-  const getter = isString(source) ? source.includes(".") ? createPathGetter(publicThis, source) : () => publicThis[source] : source.bind(publicThis, publicThis);
+  const getter = isString(source2) ? source2.includes(".") ? createPathGetter(publicThis, source2) : () => publicThis[source2] : source2.bind(publicThis, publicThis);
   let cb;
   if (isFunction(value)) {
     cb = value;
@@ -6978,6 +6978,7 @@ const app = app$1;
 const api = api$1;
 const PARAMS_TYPE = "SPEKTRAFILM_PARAMS";
 const SIMULATION_NODE = "SpektrafilmFilmSimulation";
+const PREVIEW_NODE = "SpektrafilmPreview";
 function chain(original, extra) {
   return function(...args) {
     original == null ? void 0 : original.apply(this, args);
@@ -6991,6 +6992,8 @@ const messages = {
     live: "live preview",
     full: "grain & blur",
     waiting: "Run the workflow once; the live preview then reuses that input image while you adjust the nodes.",
+    result: "run result",
+    unlinked: "Connect this to the output of Spektrafilm Film Simulation.",
     error: "Preview failed"
   },
   zh: {
@@ -6999,6 +7002,8 @@ const messages = {
     live: "实时预览",
     full: "颗粒和模糊",
     waiting: "先运行一次工作流，之后调节点时，实时预览会复用这次的输入图。",
+    result: "运行结果",
+    unlinked: "把它接到 Spektrafilm Film Simulation 的输出上。",
     error: "预览失败"
   }
 };
@@ -7016,36 +7021,43 @@ function widgetValues(node) {
   }
   return values;
 }
+function source(node, input) {
+  const slot = node.findInputSlot(input);
+  return slot < 0 ? null : node.getInputNode(slot);
+}
 function paramsSource(node) {
   var _a, _b;
-  const slot = node.findInputSlot("params");
-  if (slot < 0) return null;
-  const source = node.getInputNode(slot);
-  return ((_b = (_a = source == null ? void 0 : source.outputs) == null ? void 0 : _a[0]) == null ? void 0 : _b.type) === PARAMS_TYPE ? source : null;
+  const params = source(node, "params");
+  return ((_b = (_a = params == null ? void 0 : params.outputs) == null ? void 0 : _a[0]) == null ? void 0 : _b.type) === PARAMS_TYPE ? params : null;
 }
-function composeRequest(node, key, fast) {
+function simulationSource(preview) {
+  const simulation = source(preview, "images");
+  return (simulation == null ? void 0 : simulation.comfyClass) === SIMULATION_NODE && simulation.mode !== BYPASS ? simulation : null;
+}
+function composeRequest(simulation, key, fast) {
   const chain2 = [];
-  for (let source = paramsSource(node); source; source = paramsSource(source)) {
-    if (source.mode !== BYPASS) chain2.unshift({ type: source.comfyClass, inputs: widgetValues(source) });
+  for (let params = paramsSource(simulation); params; params = paramsSource(params)) {
+    if (params.mode !== BYPASS) chain2.unshift({ type: params.comfyClass, inputs: widgetValues(params) });
   }
-  return { key, fast, main: widgetValues(node), chain: chain2 };
+  return { key, fast, main: widgetValues(simulation), chain: chain2 };
 }
 const DEBOUNCE_MS = 120;
 const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview", () => {
   const entries = /* @__PURE__ */ reactive({});
-  const nodes = /* @__PURE__ */ new Map();
+  const previews = /* @__PURE__ */ new Map();
+  const inputKeys = /* @__PURE__ */ new WeakMap();
   let timer;
   let nextId = 0;
-  function register(node) {
+  function register(preview) {
     const id = String(nextId++);
-    nodes.set(id, markRaw(node));
+    previews.set(id, markRaw(preview));
     entries[id] = {
-      key: "",
       enabled: true,
       fast: true,
       status: "waiting",
       message: "",
       url: "",
+      count: 0,
       signature: "",
       busy: false,
       again: false
@@ -7053,18 +7065,34 @@ const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview"
     schedule();
     return id;
   }
+  function setUrl(entry, url) {
+    if (entry.url.startsWith("blob:")) URL.revokeObjectURL(entry.url);
+    entry.url = url;
+  }
   function unregister(id) {
     const entry = entries[id];
-    if (entry == null ? void 0 : entry.url) URL.revokeObjectURL(entry.url);
+    if (entry) setUrl(entry, "");
     delete entries[id];
-    nodes.delete(id);
+    previews.delete(id);
   }
-  function executed(id, key) {
+  function request(id) {
+    const preview = previews.get(id);
+    const simulation = preview && simulationSource(preview);
     const entry = entries[id];
-    if (!entry) return;
-    entry.key = key;
-    entry.signature = "";
-    schedule();
+    if (!simulation || !entry) return null;
+    return JSON.stringify(composeRequest(simulation, inputKeys.get(simulation) ?? String(simulation.id), entry.fast));
+  }
+  function simulationExecuted(simulation, key) {
+    inputKeys.set(markRaw(simulation), key);
+  }
+  function previewExecuted(id, images) {
+    const entry = entries[id];
+    if (!entry || !images.length) return;
+    const { filename, subfolder, type } = images[0];
+    setUrl(entry, api.apiURL(`/view?${new URLSearchParams({ filename, subfolder, type })}`));
+    entry.count = images.length;
+    entry.status = "result";
+    entry.signature = request(id) ?? "";
   }
   function setOption(id, option, value) {
     const entry = entries[id];
@@ -7075,14 +7103,18 @@ const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview"
   function schedule() {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      for (const id of nodes.keys()) void refresh(id);
+      for (const id of previews.keys()) void refresh(id);
     }, DEBOUNCE_MS);
   }
   async function refresh(id) {
-    const node = nodes.get(id);
     const entry = entries[id];
-    if (!node || !(entry == null ? void 0 : entry.enabled)) return;
-    const body = JSON.stringify(composeRequest(node, entry.key || String(node.id), entry.fast));
+    if (!(entry == null ? void 0 : entry.enabled)) return;
+    const body = request(id);
+    if (body === null) {
+      entry.status = "unlinked";
+      entry.signature = "";
+      return;
+    }
     if (body === entry.signature) return;
     if (entry.busy) {
       entry.again = true;
@@ -7106,9 +7138,9 @@ const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview"
         entry.message = (await response.json()).error ?? response.statusText;
         return;
       }
-      if (entry.url) URL.revokeObjectURL(entry.url);
-      entry.url = URL.createObjectURL(await response.blob());
-      entry.status = "ready";
+      setUrl(entry, URL.createObjectURL(await response.blob()));
+      entry.count = 1;
+      entry.status = "live";
     } catch (error) {
       entry.status = "error";
       entry.message = String(error);
@@ -7120,7 +7152,7 @@ const useLivePreviewStore = /* @__PURE__ */ defineStore("spektrafilmLivePreview"
       }
     }
   }
-  return { entries, register, unregister, executed, setOption, schedule };
+  return { entries, register, unregister, simulationExecuted, previewExecuted, setOption, schedule };
 });
 const _hoisted_1 = {
   key: 0,
@@ -7133,17 +7165,22 @@ const _hoisted_5 = {
   key: 0,
   class: "sf-live__spinner"
 };
-const _hoisted_6 = {
-  key: 0,
-  class: "sf-live__view"
-};
+const _hoisted_6 = { class: "sf-live__view" };
 const _hoisted_7 = ["src"];
 const _hoisted_8 = {
   key: 1,
-  class: "sf-live__note"
+  class: "sf-live__badge"
 };
 const _hoisted_9 = {
   key: 2,
+  class: "sf-live__note"
+};
+const _hoisted_10 = {
+  key: 3,
+  class: "sf-live__note"
+};
+const _hoisted_11 = {
+  key: 4,
   class: "sf-live__note sf-live__note--error"
 };
 const _sfc_main = /* @__PURE__ */ defineComponent({
@@ -7182,17 +7219,24 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             ], -1)),
             createTextVNode(" " + toDisplayString(unref(t)("full")), 1)
           ], 8, _hoisted_4),
-          entry.value.enabled && entry.value.status === "loading" ? (openBlock(), createElementBlock("span", _hoisted_5)) : createCommentVNode("", true)
+          entry.value.status === "loading" ? (openBlock(), createElementBlock("span", _hoisted_5)) : createCommentVNode("", true)
         ]),
-        entry.value.enabled ? (openBlock(), createElementBlock("div", _hoisted_6, [
+        createBaseVNode("div", _hoisted_6, [
           entry.value.url ? (openBlock(), createElementBlock("img", {
             key: 0,
             src: entry.value.url,
             class: normalizeClass([{ "sf-live__img--stale": entry.value.status === "loading" }, "sf-live__img"])
           }, null, 10, _hoisted_7)) : createCommentVNode("", true),
-          entry.value.status === "waiting" && !entry.value.url ? (openBlock(), createElementBlock("p", _hoisted_8, toDisplayString(unref(t)("waiting")), 1)) : createCommentVNode("", true),
-          entry.value.status === "error" ? (openBlock(), createElementBlock("p", _hoisted_9, toDisplayString(unref(t)("error")) + ": " + toDisplayString(entry.value.message), 1)) : createCommentVNode("", true)
-        ])) : createCommentVNode("", true)
+          entry.value.url && (entry.value.status === "live" || entry.value.status === "result") ? (openBlock(), createElementBlock("span", _hoisted_8, [
+            createTextVNode(toDisplayString(entry.value.status === "live" ? unref(t)("live") : unref(t)("result")), 1),
+            entry.value.count > 1 ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+              createTextVNode(" · 1/" + toDisplayString(entry.value.count), 1)
+            ], 64)) : createCommentVNode("", true)
+          ])) : createCommentVNode("", true),
+          entry.value.status === "unlinked" ? (openBlock(), createElementBlock("p", _hoisted_9, toDisplayString(unref(t)("unlinked")), 1)) : createCommentVNode("", true),
+          entry.value.status === "waiting" && !entry.value.url ? (openBlock(), createElementBlock("p", _hoisted_10, toDisplayString(unref(t)("waiting")), 1)) : createCommentVNode("", true),
+          entry.value.status === "error" ? (openBlock(), createElementBlock("p", _hoisted_11, toDisplayString(unref(t)("error")) + ": " + toDisplayString(entry.value.message), 1)) : createCommentVNode("", true)
+        ])
       ])) : createCommentVNode("", true);
     };
   }
@@ -7204,7 +7248,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const LivePreview = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-e9f955bd"]]);
+const LivePreview = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-70ead87a"]]);
 const UPLOADS = {
   SpektrafilmLoadRaw: {
     widget: "raw_file",
@@ -7246,7 +7290,8 @@ function addUploadButton(node) {
     if (file) await upload(file, combo);
     input.value = "";
   };
-  node.addWidget("button", t("upload"), "", () => input.click(), { serialize: false });
+  const button = node.addWidget("button", t("upload"), "", () => input.click(), { serialize: false });
+  button.serialize = false;
 }
 const pinia = createPinia();
 const store = useLivePreviewStore(pinia);
@@ -7256,7 +7301,7 @@ function addLivePreview(node) {
   const widget = node.addDOMWidget("spektrafilm_live", "spektrafilm_live", container, {
     serialize: false,
     hideOnZoom: false,
-    getMinHeight: () => 240
+    getMinHeight: () => 320
   });
   widget.serialize = false;
   const id = store.register(node);
@@ -7264,9 +7309,7 @@ function addLivePreview(node) {
   vueApp.use(pinia);
   vueApp.mount(container);
   node.onExecuted = chain(node.onExecuted, (output) => {
-    var _a;
-    const key = (_a = output.spektrafilm_live) == null ? void 0 : _a[0];
-    if (key) store.executed(id, key);
+    store.previewExecuted(id, output.spektrafilm_result ?? []);
   });
   node.onRemoved = chain(node.onRemoved, () => {
     vueApp.unmount();
@@ -7284,6 +7327,17 @@ app.registerExtension({
     for (const widget of node.widgets ?? []) widget.callback = chain(widget.callback, () => store.schedule());
     node.onConnectionsChange = chain(node.onConnectionsChange, () => store.schedule());
     addUploadButton(node);
-    if (node.comfyClass === SIMULATION_NODE) addLivePreview(node);
+    if (node.comfyClass === SIMULATION_NODE) {
+      node.onExecuted = chain(node.onExecuted, (output) => {
+        var _a;
+        const key = (_a = output.spektrafilm_live) == null ? void 0 : _a[0];
+        if (key) store.simulationExecuted(node, key);
+      });
+    }
+    if (node.comfyClass === PREVIEW_NODE) {
+      addLivePreview(node);
+      const [width, height] = node.size;
+      node.setSize([Math.max(width, 360), Math.max(height, 420)]);
+    }
   }
 });

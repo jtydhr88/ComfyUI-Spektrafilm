@@ -2,54 +2,80 @@ import { defineStore } from 'pinia'
 import { markRaw, reactive } from 'vue'
 
 import { api, type ComfyNode } from '@/comfy'
-import { composeRequest } from '@/graph'
+import { composeRequest, simulationSource } from '@/graph'
 
 const DEBOUNCE_MS = 120
 
-export type LiveStatus = 'waiting' | 'loading' | 'ready' | 'error'
+export type LiveStatus = 'unlinked' | 'waiting' | 'loading' | 'live' | 'result' | 'error'
 
 export interface LiveEntry {
-  key: string
   enabled: boolean
   fast: boolean
   status: LiveStatus
   message: string
   url: string
+  count: number
   signature: string
   busy: boolean
   again: boolean
 }
 
+export interface SavedImage {
+  filename: string
+  subfolder: string
+  type: string
+}
+
 export const useLivePreviewStore = defineStore('spektrafilmLivePreview', () => {
   const entries = reactive<Record<string, LiveEntry>>({})
-  const nodes = new Map<string, ComfyNode>()
+  const previews = new Map<string, ComfyNode>()
+  const inputKeys = new WeakMap<ComfyNode, string>()
   let timer: ReturnType<typeof setTimeout> | undefined
   let nextId = 0
 
-  function register(node: ComfyNode): string {
+  function register(preview: ComfyNode): string {
     const id = String(nextId++)
-    nodes.set(id, markRaw(node))
+    previews.set(id, markRaw(preview))
     entries[id] = {
-      key: '', enabled: true, fast: true, status: 'waiting',
-      message: '', url: '', signature: '', busy: false, again: false
+      enabled: true, fast: true, status: 'waiting', message: '', url: '', count: 0,
+      signature: '', busy: false, again: false
     }
     schedule()
     return id
   }
 
-  function unregister(id: string) {
-    const entry = entries[id]
-    if (entry?.url) URL.revokeObjectURL(entry.url)
-    delete entries[id]
-    nodes.delete(id)
+  function setUrl(entry: LiveEntry, url: string) {
+    if (entry.url.startsWith('blob:')) URL.revokeObjectURL(entry.url)
+    entry.url = url
   }
 
-  function executed(id: string, key: string) {
+  function unregister(id: string) {
     const entry = entries[id]
-    if (!entry) return
-    entry.key = key
-    entry.signature = ''
-    schedule()
+    if (entry) setUrl(entry, '')
+    delete entries[id]
+    previews.delete(id)
+  }
+
+  function request(id: string) {
+    const preview = previews.get(id)
+    const simulation = preview && simulationSource(preview)
+    const entry = entries[id]
+    if (!simulation || !entry) return null
+    return JSON.stringify(composeRequest(simulation, inputKeys.get(simulation) ?? String(simulation.id), entry.fast))
+  }
+
+  function simulationExecuted(simulation: ComfyNode, key: string) {
+    inputKeys.set(markRaw(simulation), key)
+  }
+
+  function previewExecuted(id: string, images: SavedImage[]) {
+    const entry = entries[id]
+    if (!entry || !images.length) return
+    const { filename, subfolder, type } = images[0]
+    setUrl(entry, api.apiURL(`/view?${new URLSearchParams({ filename, subfolder, type })}`))
+    entry.count = images.length
+    entry.status = 'result'
+    entry.signature = request(id) ?? ''
   }
 
   function setOption(id: string, option: 'enabled' | 'fast', value: boolean) {
@@ -62,15 +88,19 @@ export const useLivePreviewStore = defineStore('spektrafilmLivePreview', () => {
   function schedule() {
     clearTimeout(timer)
     timer = setTimeout(() => {
-      for (const id of nodes.keys()) void refresh(id)
+      for (const id of previews.keys()) void refresh(id)
     }, DEBOUNCE_MS)
   }
 
   async function refresh(id: string) {
-    const node = nodes.get(id)
     const entry = entries[id]
-    if (!node || !entry?.enabled) return
-    const body = JSON.stringify(composeRequest(node, entry.key || String(node.id), entry.fast))
+    if (!entry?.enabled) return
+    const body = request(id)
+    if (body === null) {
+      entry.status = 'unlinked'
+      entry.signature = ''
+      return
+    }
     if (body === entry.signature) return
     if (entry.busy) {
       entry.again = true
@@ -92,9 +122,9 @@ export const useLivePreviewStore = defineStore('spektrafilmLivePreview', () => {
         entry.message = (await response.json()).error ?? response.statusText
         return
       }
-      if (entry.url) URL.revokeObjectURL(entry.url)
-      entry.url = URL.createObjectURL(await response.blob())
-      entry.status = 'ready'
+      setUrl(entry, URL.createObjectURL(await response.blob()))
+      entry.count = 1
+      entry.status = 'live'
     } catch (error) {
       entry.status = 'error'
       entry.message = String(error)
@@ -107,5 +137,5 @@ export const useLivePreviewStore = defineStore('spektrafilmLivePreview', () => {
     }
   }
 
-  return { entries, register, unregister, executed, setOption, schedule }
+  return { entries, register, unregister, simulationExecuted, previewExecuted, setOption, schedule }
 })

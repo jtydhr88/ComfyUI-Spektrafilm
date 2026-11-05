@@ -1,8 +1,8 @@
 {
-  "id": "12455e29-d4a2-4677-9f74-ad16f7fb1dbb",
+  "id": "0effb5e3-921d-4a47-abe4-01e25a2c2d34",
   "revision": 0,
-  "last_node_id": 5,
-  "last_link_id": 4,
+  "last_node_id": 6,
+  "last_link_id": 5,
   "nodes": [
     {
       "id": 1,
@@ -12,7 +12,7 @@
         60
       ],
       "size": [
-        270,
+        287.09375,
         226
       ],
       "flags": {},
@@ -95,8 +95,7 @@
         1,
         false,
         "sRGB",
-        true,
-        null
+        true
       ],
       "widgets_values_named": {
         "raw_file": "iss030e122639.NEF",
@@ -106,7 +105,7 @@
         "lens_correction": false,
         "color_space": "sRGB",
         "cctf_encoding": true,
-        "choose file to upload": null
+        "\u9009\u62e9\u6587\u4ef6\u4e0a\u4f20": ""
       }
     },
     {
@@ -114,7 +113,7 @@
       "type": "SpektrafilmGrain",
       "pos": [
         40,
-        400
+        380
       ],
       "size": [
         311.796875,
@@ -342,7 +341,7 @@
       "id": 3,
       "type": "SpektrafilmHalation",
       "pos": [
-        440,
+        40,
         700
       ],
       "size": [
@@ -651,12 +650,12 @@
       "id": 4,
       "type": "SpektrafilmFilmSimulation",
       "pos": [
-        440,
+        420,
         60
       ],
       "size": [
         317.005859375,
-        486
+        390
       ],
       "flags": {},
       "order": 3,
@@ -776,38 +775,6 @@
             "name": "enlarger_lens_blur"
           },
           "link": null
-        },
-        {
-          "name": "input_color_space",
-          "type": "COMBO",
-          "widget": {
-            "name": "input_color_space"
-          },
-          "link": null
-        },
-        {
-          "name": "input_cctf_decoding",
-          "type": "BOOLEAN",
-          "widget": {
-            "name": "input_cctf_decoding"
-          },
-          "link": null
-        },
-        {
-          "name": "output_color_space",
-          "type": "COMBO",
-          "widget": {
-            "name": "output_color_space"
-          },
-          "link": null
-        },
-        {
-          "name": "output_cctf_encoding",
-          "type": "BOOLEAN",
-          "widget": {
-            "name": "output_cctf_encoding"
-          },
-          "link": null
         }
       ],
       "outputs": [
@@ -815,7 +782,8 @@
           "name": "IMAGE",
           "type": "IMAGE",
           "links": [
-            4
+            4,
+            5
           ]
         }
       ],
@@ -836,11 +804,7 @@
         0,
         0,
         "TH-KG3",
-        0,
-        "sRGB",
-        true,
-        "sRGB",
-        true
+        0
       ],
       "widgets_values_named": {
         "film_stock": "kodak_portra_400",
@@ -856,18 +820,14 @@
         "print_y_filter_shift": 0,
         "print_m_filter_shift": 0,
         "print_illuminant": "TH-KG3",
-        "enlarger_lens_blur": 0,
-        "input_color_space": "sRGB",
-        "input_cctf_decoding": true,
-        "output_color_space": "sRGB",
-        "output_cctf_encoding": true
+        "enlarger_lens_blur": 0
       }
     },
     {
       "id": 5,
       "type": "SpektrafilmSaveImage",
       "pos": [
-        900,
+        820,
         60
       ],
       "size": [
@@ -952,6 +912,34 @@
         "save_color_space": "sRGB",
         "save_cctf_encoding": true
       }
+    },
+    {
+      "id": 6,
+      "type": "SpektrafilmPreview",
+      "pos": [
+        820,
+        400
+      ],
+      "size": [
+        360,
+        420
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 5
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SpektrafilmPreview"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
     }
   ],
   "links": [
@@ -984,6 +972,14 @@
       4,
       0,
       5,
+      0,
+      "IMAGE"
+    ],
+    [
+      5,
+      4,
+      0,
+      6,
       0,
       "IMAGE"
     ]

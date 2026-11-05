@@ -21,10 +21,14 @@ const entry = computed(() => store.entries[entryId])
         <span class="sf-live__track"><span class="sf-live__thumb" /></span>
         {{ t('full') }}
       </button>
-      <span v-if="entry.enabled && entry.status === 'loading'" class="sf-live__spinner" />
+      <span v-if="entry.status === 'loading'" class="sf-live__spinner" />
     </div>
-    <div v-if="entry.enabled" class="sf-live__view">
+    <div class="sf-live__view">
       <img v-if="entry.url" :src="entry.url" :class="{ 'sf-live__img--stale': entry.status === 'loading' }" class="sf-live__img" />
+      <span v-if="entry.url && (entry.status === 'live' || entry.status === 'result')" class="sf-live__badge">
+        {{ entry.status === 'live' ? t('live') : t('result') }}<template v-if="entry.count > 1"> · 1/{{ entry.count }}</template>
+      </span>
+      <p v-if="entry.status === 'unlinked'" class="sf-live__note">{{ t('unlinked') }}</p>
       <p v-if="entry.status === 'waiting' && !entry.url" class="sf-live__note">{{ t('waiting') }}</p>
       <p v-if="entry.status === 'error'" class="sf-live__note sf-live__note--error">{{ t('error') }}: {{ entry.message }}</p>
     </div>
@@ -115,6 +119,15 @@ const entry = computed(() => store.entries[entryId])
 }
 .sf-live__img--stale {
   opacity: 0.7;
+}
+.sf-live__badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  background: color-mix(in srgb, var(--comfy-input-bg, #222) 80%, transparent);
 }
 .sf-live__note {
   margin: 0;

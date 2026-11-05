@@ -2,8 +2,8 @@ import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 
 import LivePreview from '@/components/LivePreview.vue'
-import { api, app, chain, SIMULATION_NODE, type ComfyNode } from '@/comfy'
-import { useLivePreviewStore } from '@/stores/livePreview'
+import { api, app, chain, PREVIEW_NODE, SIMULATION_NODE, type ComfyNode } from '@/comfy'
+import { useLivePreviewStore, type SavedImage } from '@/stores/livePreview'
 import { addUploadButton } from '@/upload'
 
 const pinia = createPinia()
@@ -15,7 +15,7 @@ function addLivePreview(node: ComfyNode) {
   const widget = node.addDOMWidget('spektrafilm_live', 'spektrafilm_live', container, {
     serialize: false,
     hideOnZoom: false,
-    getMinHeight: () => 240
+    getMinHeight: () => 320
   })
   widget.serialize = false
 
@@ -25,8 +25,7 @@ function addLivePreview(node: ComfyNode) {
   vueApp.mount(container)
 
   node.onExecuted = chain(node.onExecuted, (output) => {
-    const key = (output.spektrafilm_live as string[] | undefined)?.[0]
-    if (key) store.executed(id, key)
+    store.previewExecuted(id, (output.spektrafilm_result as SavedImage[] | undefined) ?? [])
   })
   node.onRemoved = chain(node.onRemoved, () => {
     vueApp.unmount()
@@ -45,6 +44,16 @@ app.registerExtension({
     for (const widget of node.widgets ?? []) widget.callback = chain(widget.callback, () => store.schedule())
     node.onConnectionsChange = chain(node.onConnectionsChange, () => store.schedule())
     addUploadButton(node)
-    if (node.comfyClass === SIMULATION_NODE) addLivePreview(node)
+    if (node.comfyClass === SIMULATION_NODE) {
+      node.onExecuted = chain(node.onExecuted, (output) => {
+        const key = (output.spektrafilm_live as string[] | undefined)?.[0]
+        if (key) store.simulationExecuted(node, key)
+      })
+    }
+    if (node.comfyClass === PREVIEW_NODE) {
+      addLivePreview(node)
+      const [width, height] = node.size
+      node.setSize([Math.max(width, 360), Math.max(height, 420)])
+    }
   }
 })

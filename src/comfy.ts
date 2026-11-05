@@ -19,6 +19,7 @@ export interface ComfyNode extends LGraphNode {
 
 export const PARAMS_TYPE = 'SPEKTRAFILM_PARAMS'
 export const SIMULATION_NODE = 'SpektrafilmFilmSimulation'
+export const PREVIEW_NODE = 'SpektrafilmPreview'
 
 export function chain<A extends unknown[]>(original: ((...args: A) => void) | undefined, extra: (...args: A) => void) {
   return function (this: unknown, ...args: A) {

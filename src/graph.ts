@@ -1,4 +1,4 @@
-import { PARAMS_TYPE, type ComfyNode } from '@/comfy'
+import { PARAMS_TYPE, SIMULATION_NODE, type ComfyNode } from '@/comfy'
 
 const BYPASS = 4
 const SKIPPED_WIDGETS = new Set(['control_after_generate'])
@@ -19,17 +19,25 @@ function widgetValues(node: ComfyNode): Record<string, unknown> {
   return values
 }
 
-function paramsSource(node: ComfyNode): ComfyNode | null {
-  const slot = node.findInputSlot('params')
-  if (slot < 0) return null
-  const source = node.getInputNode(slot) as ComfyNode | null
-  return source?.outputs?.[0]?.type === PARAMS_TYPE ? source : null
+function source(node: ComfyNode, input: string): ComfyNode | null {
+  const slot = node.findInputSlot(input)
+  return slot < 0 ? null : (node.getInputNode(slot) as ComfyNode | null)
 }
 
-export function composeRequest(node: ComfyNode, key: string, fast: boolean): LiveRequest {
+function paramsSource(node: ComfyNode): ComfyNode | null {
+  const params = source(node, 'params')
+  return params?.outputs?.[0]?.type === PARAMS_TYPE ? params : null
+}
+
+export function simulationSource(preview: ComfyNode): ComfyNode | null {
+  const simulation = source(preview, 'images')
+  return simulation?.comfyClass === SIMULATION_NODE && simulation.mode !== BYPASS ? simulation : null
+}
+
+export function composeRequest(simulation: ComfyNode, key: string, fast: boolean): LiveRequest {
   const chain: LiveRequest['chain'] = []
-  for (let source = paramsSource(node); source; source = paramsSource(source)) {
-    if (source.mode !== BYPASS) chain.unshift({ type: source.comfyClass, inputs: widgetValues(source) })
+  for (let params = paramsSource(simulation); params; params = paramsSource(params)) {
+    if (params.mode !== BYPASS) chain.unshift({ type: params.comfyClass, inputs: widgetValues(params) })
   }
-  return { key, fast, main: widgetValues(node), chain }
+  return { key, fast, main: widgetValues(simulation), chain }
 }
