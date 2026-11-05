@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.lut binary
+*.npy binary
+*.icc binary
+*.icm binary
