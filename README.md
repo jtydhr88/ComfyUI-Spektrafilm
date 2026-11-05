@@ -32,7 +32,7 @@ All dependencies ship wheels for Windows, Linux and macOS. Everything runs on th
 - preview: skips grain and blurs for a fast look at color and exposure
 - camera auto exposure and exposure compensation, print exposure, enlarger Y/M filter shifts
 
-**Spektrafilm Preview** goes after the simulation node. It shows the result of each run, and between runs it is a live preview (run once first, so it has an input image). Every change on the simulation node or on the params nodes chained into it updates the preview in about 0.2 s without queueing the workflow: the backend bakes the per-pixel part of the simulation into a 33³ 3D LUT and the browser applies it to the input image with WebGL. Grain, halation and blurs are spatial and not in the LUT; turn on `grain & blur` to render them on the backend instead (640 px, slower). The live preview is frontend-only: it is not saved in the workflow and not sent in API prompts.
+**Spektrafilm Preview** goes after the simulation node. It shows the result of each run, and between runs it is a live preview (run once first, so it has an input image). Every change on the simulation node or on the params nodes chained into it updates the preview in about 0.2 s without queueing the workflow: the backend bakes the per-pixel part of the simulation into a 33³ 3D LUT and the browser applies it to the input image with WebGL. Grain, halation and blurs are spatial and not in the LUT; turn on `grain & blur` to render them on the backend instead (640 px, slower).
 
 Every other parameter of the spektrafilm GUI is on a params node. Chain any of them into the `params` input:
 
