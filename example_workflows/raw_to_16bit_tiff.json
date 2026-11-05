@@ -1,0 +1,994 @@
+{
+  "id": "12455e29-d4a2-4677-9f74-ad16f7fb1dbb",
+  "revision": 0,
+  "last_node_id": 5,
+  "last_link_id": 4,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "SpektrafilmLoadRaw",
+      "pos": [
+        40,
+        60
+      ],
+      "size": [
+        270,
+        226
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "raw_file",
+          "type": "COMBO",
+          "widget": {
+            "name": "raw_file"
+          },
+          "link": null
+        },
+        {
+          "name": "white_balance",
+          "type": "COMBO",
+          "widget": {
+            "name": "white_balance"
+          },
+          "link": null
+        },
+        {
+          "name": "temperature",
+          "type": "FLOAT",
+          "widget": {
+            "name": "temperature"
+          },
+          "link": null
+        },
+        {
+          "name": "tint",
+          "type": "FLOAT",
+          "widget": {
+            "name": "tint"
+          },
+          "link": null
+        },
+        {
+          "name": "lens_correction",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "lens_correction"
+          },
+          "link": null
+        },
+        {
+          "name": "color_space",
+          "type": "COMBO",
+          "widget": {
+            "name": "color_space"
+          },
+          "link": null
+        },
+        {
+          "name": "cctf_encoding",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "cctf_encoding"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SpektrafilmLoadRaw"
+      },
+      "widgets_values": [
+        "iss030e122639.NEF",
+        "as_shot",
+        5500,
+        1,
+        false,
+        "sRGB",
+        true,
+        null
+      ],
+      "widgets_values_named": {
+        "raw_file": "iss030e122639.NEF",
+        "white_balance": "as_shot",
+        "temperature": 5500,
+        "tint": 1,
+        "lens_correction": false,
+        "color_space": "sRGB",
+        "cctf_encoding": true,
+        "choose file to upload": null
+      }
+    },
+    {
+      "id": 2,
+      "type": "SpektrafilmGrain",
+      "pos": [
+        40,
+        400
+      ],
+      "size": [
+        311.796875,
+        490
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "params",
+          "shape": 7,
+          "type": "SPEKTRAFILM_PARAMS",
+          "link": null
+        },
+        {
+          "name": "active",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "active"
+          },
+          "link": null
+        },
+        {
+          "name": "sublayers_active",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "sublayers_active"
+          },
+          "link": null
+        },
+        {
+          "name": "particle_area_um2",
+          "type": "FLOAT",
+          "widget": {
+            "name": "particle_area_um2"
+          },
+          "link": null
+        },
+        {
+          "name": "particle_scale_r",
+          "type": "FLOAT",
+          "widget": {
+            "name": "particle_scale_r"
+          },
+          "link": null
+        },
+        {
+          "name": "particle_scale_g",
+          "type": "FLOAT",
+          "widget": {
+            "name": "particle_scale_g"
+          },
+          "link": null
+        },
+        {
+          "name": "particle_scale_b",
+          "type": "FLOAT",
+          "widget": {
+            "name": "particle_scale_b"
+          },
+          "link": null
+        },
+        {
+          "name": "particle_scale_layers_r",
+          "type": "FLOAT",
+          "widget": {
+            "name": "particle_scale_layers_r"
+          },
+          "link": null
+        },
+        {
+          "name": "particle_scale_layers_g",
+          "type": "FLOAT",
+          "widget": {
+            "name": "particle_scale_layers_g"
+          },
+          "link": null
+        },
+        {
+          "name": "particle_scale_layers_b",
+          "type": "FLOAT",
+          "widget": {
+            "name": "particle_scale_layers_b"
+          },
+          "link": null
+        },
+        {
+          "name": "density_min_r",
+          "type": "FLOAT",
+          "widget": {
+            "name": "density_min_r"
+          },
+          "link": null
+        },
+        {
+          "name": "density_min_g",
+          "type": "FLOAT",
+          "widget": {
+            "name": "density_min_g"
+          },
+          "link": null
+        },
+        {
+          "name": "density_min_b",
+          "type": "FLOAT",
+          "widget": {
+            "name": "density_min_b"
+          },
+          "link": null
+        },
+        {
+          "name": "uniformity_r",
+          "type": "FLOAT",
+          "widget": {
+            "name": "uniformity_r"
+          },
+          "link": null
+        },
+        {
+          "name": "uniformity_g",
+          "type": "FLOAT",
+          "widget": {
+            "name": "uniformity_g"
+          },
+          "link": null
+        },
+        {
+          "name": "uniformity_b",
+          "type": "FLOAT",
+          "widget": {
+            "name": "uniformity_b"
+          },
+          "link": null
+        },
+        {
+          "name": "blur",
+          "type": "FLOAT",
+          "widget": {
+            "name": "blur"
+          },
+          "link": null
+        },
+        {
+          "name": "blur_dye_clouds_um",
+          "type": "FLOAT",
+          "widget": {
+            "name": "blur_dye_clouds_um"
+          },
+          "link": null
+        },
+        {
+          "name": "micro_structure_blur",
+          "type": "FLOAT",
+          "widget": {
+            "name": "micro_structure_blur"
+          },
+          "link": null
+        },
+        {
+          "name": "micro_structure_clump_nm",
+          "type": "FLOAT",
+          "widget": {
+            "name": "micro_structure_clump_nm"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SPEKTRAFILM_PARAMS",
+          "type": "SPEKTRAFILM_PARAMS",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SpektrafilmGrain"
+      },
+      "widgets_values": [
+        true,
+        true,
+        0.2,
+        1.6,
+        1.6,
+        3.2,
+        2,
+        1,
+        0.5,
+        0.03,
+        0.03,
+        0.03,
+        0.97,
+        0.99,
+        0.97,
+        0.65,
+        1,
+        0.2,
+        30
+      ],
+      "widgets_values_named": {
+        "active": true,
+        "sublayers_active": true,
+        "particle_area_um2": 0.2,
+        "particle_scale_r": 1.6,
+        "particle_scale_g": 1.6,
+        "particle_scale_b": 3.2,
+        "particle_scale_layers_r": 2,
+        "particle_scale_layers_g": 1,
+        "particle_scale_layers_b": 0.5,
+        "density_min_r": 0.03,
+        "density_min_g": 0.03,
+        "density_min_b": 0.03,
+        "uniformity_r": 0.97,
+        "uniformity_g": 0.99,
+        "uniformity_b": 0.97,
+        "blur": 0.65,
+        "blur_dye_clouds_um": 1,
+        "micro_structure_blur": 0.2,
+        "micro_structure_clump_nm": 30
+      }
+    },
+    {
+      "id": 3,
+      "type": "SpektrafilmHalation",
+      "pos": [
+        440,
+        700
+      ],
+      "size": [
+        303.037109375,
+        682
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "params",
+          "shape": 7,
+          "type": "SPEKTRAFILM_PARAMS",
+          "link": 1
+        },
+        {
+          "name": "override_stock_preset",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "override_stock_preset"
+          },
+          "link": null
+        },
+        {
+          "name": "active",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "active"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_amount",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_amount"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_spatial_scale",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_spatial_scale"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_amount",
+          "type": "FLOAT",
+          "widget": {
+            "name": "halation_amount"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_spatial_scale",
+          "type": "FLOAT",
+          "widget": {
+            "name": "halation_spatial_scale"
+          },
+          "link": null
+        },
+        {
+          "name": "boost_ev",
+          "type": "FLOAT",
+          "widget": {
+            "name": "boost_ev"
+          },
+          "link": null
+        },
+        {
+          "name": "protect_ev",
+          "type": "FLOAT",
+          "widget": {
+            "name": "protect_ev"
+          },
+          "link": null
+        },
+        {
+          "name": "boost_range",
+          "type": "FLOAT",
+          "widget": {
+            "name": "boost_range"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_core_um_r",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_core_um_r"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_core_um_g",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_core_um_g"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_core_um_b",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_core_um_b"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_tail_um_r",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_tail_um_r"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_tail_um_g",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_tail_um_g"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_tail_um_b",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_tail_um_b"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_tail_weight_r",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_tail_weight_r"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_tail_weight_g",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_tail_weight_g"
+          },
+          "link": null
+        },
+        {
+          "name": "scatter_tail_weight_b",
+          "type": "FLOAT",
+          "widget": {
+            "name": "scatter_tail_weight_b"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_strength_r",
+          "type": "FLOAT",
+          "widget": {
+            "name": "halation_strength_r"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_strength_g",
+          "type": "FLOAT",
+          "widget": {
+            "name": "halation_strength_g"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_strength_b",
+          "type": "FLOAT",
+          "widget": {
+            "name": "halation_strength_b"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_first_sigma_um_r",
+          "type": "FLOAT",
+          "widget": {
+            "name": "halation_first_sigma_um_r"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_first_sigma_um_g",
+          "type": "FLOAT",
+          "widget": {
+            "name": "halation_first_sigma_um_g"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_first_sigma_um_b",
+          "type": "FLOAT",
+          "widget": {
+            "name": "halation_first_sigma_um_b"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_n_bounces",
+          "type": "INT",
+          "widget": {
+            "name": "halation_n_bounces"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_bounce_decay",
+          "type": "FLOAT",
+          "widget": {
+            "name": "halation_bounce_decay"
+          },
+          "link": null
+        },
+        {
+          "name": "halation_renormalize",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "halation_renormalize"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SPEKTRAFILM_PARAMS",
+          "type": "SPEKTRAFILM_PARAMS",
+          "links": [
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SpektrafilmHalation"
+      },
+      "widgets_values": [
+        false,
+        true,
+        1,
+        1,
+        1,
+        1,
+        0,
+        4,
+        0.3,
+        2.2,
+        2,
+        1.6,
+        9.3,
+        9.7,
+        9.1,
+        0.78,
+        0.65,
+        0.67,
+        0.015,
+        0.005,
+        0,
+        65,
+        65,
+        65,
+        3,
+        0.5,
+        true
+      ],
+      "widgets_values_named": {
+        "override_stock_preset": false,
+        "active": true,
+        "scatter_amount": 1,
+        "scatter_spatial_scale": 1,
+        "halation_amount": 1,
+        "halation_spatial_scale": 1,
+        "boost_ev": 0,
+        "protect_ev": 4,
+        "boost_range": 0.3,
+        "scatter_core_um_r": 2.2,
+        "scatter_core_um_g": 2,
+        "scatter_core_um_b": 1.6,
+        "scatter_tail_um_r": 9.3,
+        "scatter_tail_um_g": 9.7,
+        "scatter_tail_um_b": 9.1,
+        "scatter_tail_weight_r": 0.78,
+        "scatter_tail_weight_g": 0.65,
+        "scatter_tail_weight_b": 0.67,
+        "halation_strength_r": 0.015,
+        "halation_strength_g": 0.005,
+        "halation_strength_b": 0,
+        "halation_first_sigma_um_r": 65,
+        "halation_first_sigma_um_g": 65,
+        "halation_first_sigma_um_b": 65,
+        "halation_n_bounces": 3,
+        "halation_bounce_decay": 0.5,
+        "halation_renormalize": true
+      }
+    },
+    {
+      "id": 4,
+      "type": "SpektrafilmFilmSimulation",
+      "pos": [
+        440,
+        60
+      ],
+      "size": [
+        317.005859375,
+        486
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 2
+        },
+        {
+          "name": "params",
+          "shape": 7,
+          "type": "SPEKTRAFILM_PARAMS",
+          "link": 3
+        },
+        {
+          "name": "film_stock",
+          "type": "COMBO",
+          "widget": {
+            "name": "film_stock"
+          },
+          "link": null
+        },
+        {
+          "name": "print_paper",
+          "type": "COMBO",
+          "widget": {
+            "name": "print_paper"
+          },
+          "link": null
+        },
+        {
+          "name": "output",
+          "type": "COMBO",
+          "widget": {
+            "name": "output"
+          },
+          "link": null
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "name": "preview",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "preview"
+          },
+          "link": null
+        },
+        {
+          "name": "auto_exposure",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "auto_exposure"
+          },
+          "link": null
+        },
+        {
+          "name": "exposure_compensation_ev",
+          "type": "FLOAT",
+          "widget": {
+            "name": "exposure_compensation_ev"
+          },
+          "link": null
+        },
+        {
+          "name": "print_exposure_compensation",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "print_exposure_compensation"
+          },
+          "link": null
+        },
+        {
+          "name": "print_exposure",
+          "type": "FLOAT",
+          "widget": {
+            "name": "print_exposure"
+          },
+          "link": null
+        },
+        {
+          "name": "print_y_filter_shift",
+          "type": "FLOAT",
+          "widget": {
+            "name": "print_y_filter_shift"
+          },
+          "link": null
+        },
+        {
+          "name": "print_m_filter_shift",
+          "type": "FLOAT",
+          "widget": {
+            "name": "print_m_filter_shift"
+          },
+          "link": null
+        },
+        {
+          "name": "print_illuminant",
+          "type": "COMBO",
+          "widget": {
+            "name": "print_illuminant"
+          },
+          "link": null
+        },
+        {
+          "name": "enlarger_lens_blur",
+          "type": "FLOAT",
+          "widget": {
+            "name": "enlarger_lens_blur"
+          },
+          "link": null
+        },
+        {
+          "name": "input_color_space",
+          "type": "COMBO",
+          "widget": {
+            "name": "input_color_space"
+          },
+          "link": null
+        },
+        {
+          "name": "input_cctf_decoding",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "input_cctf_decoding"
+          },
+          "link": null
+        },
+        {
+          "name": "output_color_space",
+          "type": "COMBO",
+          "widget": {
+            "name": "output_color_space"
+          },
+          "link": null
+        },
+        {
+          "name": "output_cctf_encoding",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "output_cctf_encoding"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SpektrafilmFilmSimulation"
+      },
+      "widgets_values": [
+        "kodak_portra_400",
+        "kodak_portra_endura",
+        "auto",
+        0,
+        "randomize",
+        false,
+        true,
+        0,
+        true,
+        1,
+        0,
+        0,
+        "TH-KG3",
+        0,
+        "sRGB",
+        true,
+        "sRGB",
+        true
+      ],
+      "widgets_values_named": {
+        "film_stock": "kodak_portra_400",
+        "print_paper": "kodak_portra_endura",
+        "output": "auto",
+        "seed": 0,
+        "control_after_generate": "randomize",
+        "preview": false,
+        "auto_exposure": true,
+        "exposure_compensation_ev": 0,
+        "print_exposure_compensation": true,
+        "print_exposure": 1,
+        "print_y_filter_shift": 0,
+        "print_m_filter_shift": 0,
+        "print_illuminant": "TH-KG3",
+        "enlarger_lens_blur": 0,
+        "input_color_space": "sRGB",
+        "input_cctf_decoding": true,
+        "output_color_space": "sRGB",
+        "output_cctf_encoding": true
+      }
+    },
+    {
+      "id": 5,
+      "type": "SpektrafilmSaveImage",
+      "pos": [
+        900,
+        60
+      ],
+      "size": [
+        329.8814453125,
+        178
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 4
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        },
+        {
+          "name": "format",
+          "type": "COMBO",
+          "widget": {
+            "name": "format"
+          },
+          "link": null
+        },
+        {
+          "name": "image_color_space",
+          "type": "COMBO",
+          "widget": {
+            "name": "image_color_space"
+          },
+          "link": null
+        },
+        {
+          "name": "image_cctf_encoded",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "image_cctf_encoded"
+          },
+          "link": null
+        },
+        {
+          "name": "save_color_space",
+          "type": "COMBO",
+          "widget": {
+            "name": "save_color_space"
+          },
+          "link": null
+        },
+        {
+          "name": "save_cctf_encoding",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "save_cctf_encoding"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SpektrafilmSaveImage"
+      },
+      "widgets_values": [
+        "spektrafilm/ComfyUI",
+        "tiff 16-bit",
+        "sRGB",
+        true,
+        "sRGB",
+        true
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "spektrafilm/ComfyUI",
+        "format": "tiff 16-bit",
+        "image_color_space": "sRGB",
+        "image_cctf_encoded": true,
+        "save_color_space": "sRGB",
+        "save_cctf_encoding": true
+      }
+    }
+  ],
+  "links": [
+    [
+      1,
+      2,
+      0,
+      3,
+      0,
+      "SPEKTRAFILM_PARAMS"
+    ],
+    [
+      2,
+      1,
+      0,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      3,
+      3,
+      0,
+      4,
+      1,
+      "SPEKTRAFILM_PARAMS"
+    ],
+    [
+      4,
+      4,
+      0,
+      5,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "version": 0.4
+}

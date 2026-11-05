@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-spektrafilm"
+description = "Spectral analog film simulation (negative, enlarger print, scan) for ComfyUI. Film modeling powered by spektrafilm."
+version = "1.0.0"
+license = {text = "GPL-3.0"}
+dependencies = ["numpy", "scipy", "colour-science>=0.4.6", "scikit-image", "matplotlib", "opt-einsum>=3.4", "numba", "OpenImageIO", "rawpy>=0.26", "exiv2>=0.18", "lensfunpy>=1.18"]
+
+[project.urls]
+Repository = "https://github.com/jtydhr88/ComfyUI-Spektrafilm"
+
+[tool.comfy]
+PublisherId = "jtydhr88"
+DisplayName = "Spektrafilm"
+Icon = ""
